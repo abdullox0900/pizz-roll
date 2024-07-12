@@ -42,6 +42,10 @@ const NavigationFood = [
 
 function Home() {
 
+    function one() {
+
+    }
+
     return (
         <>
             <Search />

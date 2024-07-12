@@ -1,6 +1,7 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 export interface MainSectionChildren {
 	children: ReactNode
-	// class:
+	style?: CSSProperties
+	sectionClass?: string
 }

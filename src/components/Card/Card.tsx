@@ -3,7 +3,7 @@ const Card = () => {
     let imgUrl = 'https://admin.webbot.shop/storage/2024/02/11/ff4765178193cee55b5c44b63b0d7c4424ff378f.jpg'
 
     return (
-        <ul className='flex flex-wrap gap-[10px]'>
+        <ul className='grid grid-cols-2 gap-[10px]'>
             <li className='w-[200px]' >
                 <img className='w-full h-[180px] rounded-[20px] mb-[10px]' src={imgUrl} alt="" />
                 <h4 className='text-[14px] mb-[3px]'>🔥Пицца из половинок</h4>

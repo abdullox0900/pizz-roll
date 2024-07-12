@@ -1,4 +1,3 @@
-
 const Slider = () => {
     return (
         <div className='w-full overflow-y-scroll scrollbar-hide flex gap-[12px]'>
