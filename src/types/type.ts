@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from 'react'
 
 export interface MainSectionChildren {
-	children: ReactNode
+	children?: ReactNode
 	style?: CSSProperties
 	sectionClass?: string
 }
