@@ -12,6 +12,7 @@ import Profile from './pages/Profile/Profile'
 
 // Styles
 import './App.css'
+import Inner from './pages/Inner/Inner'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/orders' element={<Orders />} />
           <Route path='/favorites' element={<Favorites />} />
+          <Route path='/inner' element={<Inner />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
