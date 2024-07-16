@@ -3,6 +3,8 @@ import { Checkbox, Radio } from 'antd'
 import { useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and SwiperSlide components from swiper
 import MainSection from '../../components/MainSection/MainSection'
+import { Pagination } from 'swiper/modules'
+
 
 const Inner = () => {
 
@@ -22,7 +24,11 @@ const Inner = () => {
 
     return (
         <MainSection>
-            <Swiper className="mySwiper mb-[25px]">
+            <Swiper className="mySwiper mb-[25px]"
+                pagination={{
+                    dynamicBullets: true,
+                }}
+                modules={[Pagination]}>
                 {
                     product.map((item: string, index: number) => {
                         return (
@@ -86,6 +92,10 @@ const Inner = () => {
             </div>
             <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
                 <div className='text-[16px] font-bold'>Отзывы</div>
+            </div>
+
+            <div className='fixed left-0 bottom-0 w-full p-[15px] bg-white border-t-[1px] border-gray-300 rounded-t-[15px]'>
+                <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]'>Добавить в корзину</button>
             </div>
         </MainSection>
     )
