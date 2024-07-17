@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
@@ -12,6 +12,16 @@ interface Refs {
     burgersRef: React.RefObject<HTMLDivElement>
     snacksRef: React.RefObject<HTMLDivElement>
     [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
+}
+
+interface TelegramUser {
+    id: number
+    first_name: string
+    last_name?: string
+    username?: string
+    photo_url?: string
+    auth_date: number
+    hash: string
 }
 
 const NavigationFood = [
@@ -38,6 +48,17 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
+
+    const [user, setUser] = useState<TelegramUser | any>('')
+
+    useEffect(() => {
+        (window as any).TelegramLoginWidgetCallback = (response: TelegramUser) => {
+            if (response.id) {
+                setUser(response)
+            }
+        }
+    }, [])
+
     return (
         <>
             <Search />
@@ -45,7 +66,7 @@ function Home() {
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>Abdulloh</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>{user.first_name}!</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
