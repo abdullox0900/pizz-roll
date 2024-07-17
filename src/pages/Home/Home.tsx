@@ -14,14 +14,12 @@ interface Refs {
     [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
 }
 
-interface TelegramUser {
-    id: number
-    first_name: string
-    last_name?: string
+interface User {
+    chatId: number
+    firstName: string
+    lastName?: string
     username?: string
-    photo_url?: string
-    auth_date: number
-    hash: string
+    photoUrl?: string
 }
 
 const NavigationFood = [
@@ -48,15 +46,13 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-
-    const [user, setUser] = useState<TelegramUser | any>('')
+    const [user, setUser] = useState<User | any>(null)
 
     useEffect(() => {
-        (window as any).TelegramLoginWidgetCallback = (response: TelegramUser) => {
-            if (response.id) {
-                setUser(response)
-            }
-        }
+        fetch('https://localhost:3001/user')
+            .then(response => response.json())
+            .then(data => setUser(data))
+            .catch(error => console.error('Error fetching user:', error))
     }, [])
 
     return (
@@ -66,7 +62,7 @@ function Home() {
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>{user.first_name}!</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>{user.firstName} {user.lastName ? user.lastName : ''}</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
