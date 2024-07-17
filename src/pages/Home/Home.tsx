@@ -7,6 +7,13 @@ import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
 import { ScrollContext } from '../../context/ScrollContext'
 
+interface Refs {
+    homeRef: React.RefObject<HTMLDivElement>
+    burgersRef: React.RefObject<HTMLDivElement>
+    snacksRef: React.RefObject<HTMLDivElement>
+    [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
+}
+
 // Navigatsiya uchun ma'lumotlar
 const NavigationFood = [
     {
@@ -29,7 +36,7 @@ function Home() {
     const { scrollToSection, homeRef, burgersRef, snacksRef } = context
 
     // Referenslarni obyekt sifatida o'zgartirish
-    const refs = { homeRef, burgersRef, snacksRef }
+    const refs: Refs = { homeRef, burgersRef, snacksRef }
 
     return (
         <>
