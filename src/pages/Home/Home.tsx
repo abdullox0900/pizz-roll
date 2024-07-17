@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
@@ -35,6 +35,8 @@ function Home() {
     if (!context) return <div>Loading...</div>
     const { scrollToSection, homeRef, burgersRef, snacksRef } = context
 
+    const [activeIndex, setActiveIndex] = useState<number | null>(0)
+
     // Referenslarni obyekt sifatida o'zgartirish
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
@@ -57,8 +59,12 @@ function Home() {
             <ul className='w-full overflow-y-scroll scrollbar-hide flex gap-[20px] px-[12px] my-[25px]'>
                 {
                     NavigationFood.map((item, index) => {
+                        const isActive = index === activeIndex
                         return (
-                            <li key={index} onClick={() => scrollToSection(refs[item.refName])} className='flex-none w-[110px] text-white py-[5px] px-[8px] rounded-[10px] bg-blue-500'>{item.name}</li>
+                            <li key={index} onClick={() => {
+                                scrollToSection(refs[item.refName])
+                                setActiveIndex(index)
+                            }} className={`flex-none w-[110px] text-gray-400 py-[5px] px-[8px] rounded-[10px] bg-blue-500 ${isActive ? 'bg-blue-700 text-white' : 'bg-white'}`}>{item.name}</li>
                         )
                     })
                 }
