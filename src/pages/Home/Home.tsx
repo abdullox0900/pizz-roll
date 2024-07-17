@@ -14,7 +14,6 @@ interface Refs {
     [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
 }
 
-// Navigatsiya uchun ma'lumotlar
 const NavigationFood = [
     {
         name: 'Пицца🍕',
@@ -37,7 +36,6 @@ function Home() {
 
     const [activeIndex, setActiveIndex] = useState<number | null>(0)
 
-    // Referenslarni obyekt sifatida o'zgartirish
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
     return (

@@ -22,6 +22,20 @@ const Inner = () => {
         setRadioValue(e.target.value)
     }
 
+    const [quantity, setQuantity] = useState(0)
+
+    const handleAddToCart = () => {
+        setQuantity(1)
+    }
+
+    const incrementQuantity = () => {
+        setQuantity(prevQuantity => prevQuantity + 1)
+    }
+
+    const decrementQuantity = () => {
+        setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 0))
+    }
+
     return (
         <MainSection>
             <Swiper className="mySwiper mb-[25px]"
@@ -95,7 +109,18 @@ const Inner = () => {
             </div>
 
             <div className='fixed left-0 bottom-0 w-full p-[15px] bg-white border-t-[1px] border-gray-300 rounded-t-[15px]'>
-                <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]'>Добавить в корзину</button>
+                {quantity === 0 ? (
+                    <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
+                ) : (
+                    <div className='grid grid-cols-2 gap-[10px]'>
+                        <div className='w-full flex justify-between items-center border-[1px] p-[4px] rounded-[8px]'>
+                            <button className='flex items-center justify-center w-[25px] h-[25px] bg-aliceblue rounded-[5px] text-[12px]' onClick={decrementQuantity}>-</button>
+                            <span className='text-[12px]'>{quantity} шт</span>
+                            <button className='flex items-center justify-center w-[25px] h-[25px] bg-aliceblue rounded-[5px] text-[12px]' onClick={incrementQuantity}>+</button>
+                        </div>
+                        <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
+                    </div>
+                )}
             </div>
         </MainSection>
     )
