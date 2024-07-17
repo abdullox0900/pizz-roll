@@ -42,14 +42,16 @@ function Home() {
         <>
             <Search />
             <MainSection>
-                <div className='flex items-center justify-between bg-slate-200 p-[10px] mb-[15px] rounded-[15px]'>
+                <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
-                        <PiUserCircleDuotone className='text-[24px]' />
-                        <span className='text-[14px] font-semibold'>Abdulloh</span>
+                        <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>Abdulloh</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
-                        <span className='text-[14px]'>Bonus:</span>
-                        <span className='flex items-center text-[12px] font-bold text-green-500'> <TbMoneybag className='text-[14px]' />500</span>
+                        <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
+                        <span className='flex items-center text-[12px] font-bold text-green-500'>
+                            <TbMoneybag className='text-[14px] text-tg-theme-button' />500
+                        </span>
                     </div>
                 </div>
             </MainSection>
@@ -62,19 +64,21 @@ function Home() {
                             <li key={index} onClick={() => {
                                 scrollToSection(refs[item.refName])
                                 setActiveIndex(index)
-                            }} className={`flex-none w-[110px] text-gray-400 py-[5px] px-[8px] rounded-[10px] bg-blue-500 ${isActive ? 'bg-blue-700 text-white' : 'bg-white'}`}>{item.name}</li>
+                            }} className={`flex-none w-[110px] text-tg-theme-hint py-[5px] px-[8px] rounded-[10px] ${isActive ? 'bg-tg-theme-button  text-tg-theme-button-text' : 'bg-white'}`}>
+                                {item.name}
+                            </li>
                         )
                     })
                 }
             </ul>
             <MainSection>
-                <h4 className='text-[16px] font-bold mb-[15px]' ref={homeRef}>Пицца🍕</h4>
+                <h4 className='text-[16px] font-bold mb-[15px] text-tg-theme-text' ref={homeRef}>Пицца🍕</h4>
                 <Card />
 
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px]' ref={burgersRef}>Бургеры🍔</h4>
+                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] text-tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
                 <Card />
 
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px]' ref={snacksRef}>Закуски🍟</h4>
+                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] text-tg-theme-text' ref={snacksRef}>Закуски🍟</h4>
                 <Card />
             </MainSection>
         </>
