@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and SwiperSlide components from swiper
 import MainSection from '../../components/MainSection/MainSection'
 import { Pagination } from 'swiper/modules'
+import { NavLink } from 'react-router-dom'
 
 
 const Inner = () => {
@@ -104,7 +105,7 @@ const Inner = () => {
                     }
                 </div>
             </div>
-            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
+            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[150px]'>
                 <div className='text-[16px] font-bold'>Отзывы</div>
             </div>
 
@@ -118,7 +119,7 @@ const Inner = () => {
                             <span className='text-[12px]'>{quantity} шт</span>
                             <button className='flex items-center justify-center w-[25px] h-[25px] bg-aliceblue rounded-[5px] text-[12px]' onClick={incrementQuantity}>+</button>
                         </div>
-                        <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
+                        <NavLink to={'/pizza_basket'} className='inline-block text-center bg-blue-500 text-[14px] text-white w-full p-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</NavLink>
                     </div>
                 )}
             </div>
