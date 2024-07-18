@@ -1,6 +1,6 @@
 import { Checkbox } from 'antd'
 import React, { useState } from 'react'
-import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+// import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
 const OrderForm: React.FC = () => {
     const [name, setName] = useState<string>('')
@@ -48,7 +48,7 @@ const OrderForm: React.FC = () => {
 
     return (
         <>
-            <TelegramBackButton />
+            {/* <TelegramBackButton /> */}
             <h3 className='text-[22px] font-bold text-center my-[30px]'>Оформление заказа</h3>
             < form onSubmit={handleSubmit} className="bg-gray-100 rounded-[15px] p-6 max-w-md mx-auto space-y-6" >
                 <div>
