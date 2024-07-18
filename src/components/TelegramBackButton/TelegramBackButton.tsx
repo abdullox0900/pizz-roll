@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 declare global {
     interface Window {
@@ -9,6 +10,9 @@ declare global {
 }
 
 const TelegramBackButton: React.FC = () => {
+
+    const navigate = useNavigate()
+
     useEffect(() => {
         const telegram = (window as any).Telegram.WebApp
 
@@ -16,7 +20,7 @@ const TelegramBackButton: React.FC = () => {
             telegram.BackButton.show()
 
             const handleBackClick = () => {
-                console.log('Orqaga tugmasi bosildi')
+                navigate(-1)
             }
 
             telegram.BackButton.onClick(handleBackClick)
