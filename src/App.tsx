@@ -13,16 +13,16 @@ import Profile from './pages/Profile/Profile'
 // Styles
 import './App.css'
 import Inner from './pages/Inner/Inner'
-import PizzaBasket from './pages/PizzaBasket/PizzaBasket'
 import OrderForm from './pages/OrderForm/OrderForm'
+import PizzaBasket from './pages/PizzaBasket/PizzaBasket'
 
 function App() {
 
-  const location = useLocation()
+  const locationKey = useLocation()
 
   return (
     <TransitionGroup>
-      <CSSTransition key={location.key} classNames="fade" timeout={300}>
+      <CSSTransition key={locationKey.key} classNames="fade" timeout={300}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />

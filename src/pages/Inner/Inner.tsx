@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and Swipe
 import MainSection from '../../components/MainSection/MainSection'
 import { Pagination } from 'swiper/modules'
 import { NavLink } from 'react-router-dom'
+import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
 
 const Inner = () => {
@@ -39,6 +40,8 @@ const Inner = () => {
 
     return (
         <MainSection>
+            <TelegramBackButton />
+
             <Swiper className="mySwiper mb-[25px]"
                 pagination={{
                     dynamicBullets: true,

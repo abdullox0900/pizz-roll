@@ -7,6 +7,7 @@ import 'swiper/css/pagination'
 import { ScrollProvider } from './context/ScrollContext.tsx'
 
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <ScrollProvider>
@@ -14,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <App />
       </TelegramThemeProvider>
     </ScrollProvider>
-  </BrowserRouter>,
+  </BrowserRouter>
 )
