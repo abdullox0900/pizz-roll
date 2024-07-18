@@ -23,7 +23,7 @@ const TelegramBackButton: React.FC = () => {
 
             return () => {
                 telegram.BackButton.offClick(handleBackClick)
-                telegram.BackButton.hide()
+                // telegram.BackButton.hide()
             }
         }
     }, [])
