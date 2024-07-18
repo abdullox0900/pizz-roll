@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
