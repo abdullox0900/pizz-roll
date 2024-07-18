@@ -14,14 +14,6 @@ interface Refs {
     [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
 }
 
-interface User {
-    chatId: number
-    firstName: string
-    lastName?: string
-    username?: string
-    photoUrl?: string
-}
-
 const NavigationFood = [
     {
         name: 'Пицца🍕',
@@ -46,15 +38,6 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const [user, setUser] = useState<User | any>(null)
-
-    useEffect(() => {
-        fetch('https://localhost:3001/user')
-            .then(response => response.json())
-            .then(data => setUser(data))
-            .catch(error => console.error('Error fetching user:', error))
-    }, [])
-
     return (
         <>
             <Search />
@@ -62,7 +45,7 @@ function Home() {
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>{user.lastName ? user.lastName : ''}</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>Name</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
