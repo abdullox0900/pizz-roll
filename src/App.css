@@ -34,7 +34,3 @@
   opacity: 0;
   transition: opacity 300ms;
 }
-
-body {
-  background-color: #fff !important;
-}

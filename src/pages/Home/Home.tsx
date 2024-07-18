@@ -6,6 +6,7 @@ import MainSection from '../../components/MainSection/MainSection'
 import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
 import { ScrollContext } from '../../context/ScrollContext'
+import useFetchData from '../../hooks/useFetcher'
 
 interface Refs {
     homeRef: React.RefObject<HTMLDivElement>
@@ -38,6 +39,11 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
+    const { data } = useFetchData('https://pizza-webapp-server.onrender.com/products')
+
+    console.log(data)
+
+
     return (
         <>
             <Search />
@@ -64,7 +70,7 @@ function Home() {
                             <li key={index} onClick={() => {
                                 scrollToSection(refs[item.refName])
                                 setActiveIndex(index)
-                            }} className={`flex-none w-[110px] text-tg-theme-hint py-[5px] px-[8px] rounded-[10px] ${isActive ? 'bg-tg-theme-button  text-tg-theme-button-text' : 'bg-white'}`}>
+                            }} className={`flex-none w-[110px] text-tg-theme-hint py-[5px] px-[8px] rounded-[10px] ${isActive ? 'bg-tg-theme-button  text-white' : 'text-slate-400'}`}>
                                 {item.name}
                             </li>
                         )
@@ -73,7 +79,7 @@ function Home() {
             </ul>
             <MainSection>
                 <h4 className='text-[16px] font-bold mb-[15px] text-tg-theme-text' ref={homeRef}>Пицца🍕</h4>
-                <Card />
+                <Card data={data} />
 
                 <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] text-tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
                 <Card />
