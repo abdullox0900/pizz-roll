@@ -1,7 +1,7 @@
 import { Minus, Plus } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-// import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
 interface CartItem {
     name: string
@@ -44,6 +44,10 @@ const PizzaBasket: React.FC = () => {
         }
     }, [canUseBonus])
 
+    useEffect(() => {
+        setBonusAmount(500)
+    }, [])
+
     const updateQuantity = (index: number, newQuantity: number) => {
         const updatedItems = [...cartItems]
         updatedItems[index].quantity = Math.max(1, newQuantity)
@@ -52,7 +56,7 @@ const PizzaBasket: React.FC = () => {
 
     return (
         <div className="bg-white">
-            {/* <TelegramBackButton /> */}
+            <TelegramBackButton />
             <h2 className="text-2xl font-bold p-4 border-b">Корзина</h2>
             <div className="divide-y">
                 {cartItems.map((item, index) => (

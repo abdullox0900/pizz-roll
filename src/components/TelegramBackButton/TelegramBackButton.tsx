@@ -1,34 +1,34 @@
-// import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-// declare global {
-//     interface Window {
-//         Telegram: {
-//             WebApp: TelegramWebApp
-//         }
-//     }
-// }
+declare global {
+    interface Window {
+        Telegram: {
+            WebApp: TelegramWebApp
+        }
+    }
+}
 
-// const TelegramBackButton: React.FC = () => {
-//     useEffect(() => {
-//         const telegram = (window as any).Telegram.WebApp
+const TelegramBackButton: React.FC = () => {
+    useEffect(() => {
+        const telegram = (window as any).Telegram.WebApp
 
-//         if (telegram && telegram.BackButton) {
-//             telegram.BackButton.show()
+        if (telegram && telegram.BackButton) {
+            telegram.BackButton.show()
 
-//             const handleBackClick = () => {
-//                 console.log('Orqaga tugmasi bosildi')
-//             }
+            const handleBackClick = () => {
+                console.log('Orqaga tugmasi bosildi')
+            }
 
-//             telegram.BackButton.onClick(handleBackClick)
+            telegram.BackButton.onClick(handleBackClick)
 
-//             return () => {
-//                 telegram.BackButton.offClick(handleBackClick)
-//                 telegram.BackButton.hide()
-//             }
-//         }
-//     }, [])
+            return () => {
+                telegram.BackButton.offClick(handleBackClick)
+                telegram.BackButton.hide()
+            }
+        }
+    }, [])
 
-//     return null
-// }
+    return null
+}
 
-// export default TelegramBackButton
+export default TelegramBackButton

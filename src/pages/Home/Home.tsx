@@ -6,7 +6,7 @@ import MainSection from '../../components/MainSection/MainSection'
 import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
 import { ScrollContext } from '../../context/ScrollContext'
-// import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
 interface Refs {
     homeRef: React.RefObject<HTMLDivElement>
@@ -42,7 +42,7 @@ function Home() {
     return (
         <>
             <Search />
-            {/* <TelegramBackButton /> */}
+            <TelegramBackButton />
             <MainSection>
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
