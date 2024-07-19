@@ -55,16 +55,16 @@ const PizzaBasket: React.FC = () => {
     }
 
     return (
-        <div className="bg-white">
+        <div className=" bg-tg-theme-secondary-bg">
             <TelegramBackButton />
-            <h2 className="text-2xl font-bold p-4 border-b">Корзина</h2>
+            <h2 className="text-2xl font-bold p-4 border-b tg-theme-text">Корзина</h2>
             <div className="divide-y">
                 {cartItems.map((item, index) => (
                     <div key={index} className="flex flex-col items-start justify-between p-4">
                         <div className='flex items-center mb-[15px]'>
                             <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
                             <div className="flex-grow">
-                                <h3 className="font-semibold text-lg">🔥{item.name}</h3>
+                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.name}</h3>
                                 <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>
                                 <p className="text-sm text-gray-500">Добавки: {item.extras}</p>
                                 <p className="font-bold mt-1">{item.price} ₽</p>
@@ -72,30 +72,30 @@ const PizzaBasket: React.FC = () => {
                         </div>
                         <div className="flex items-center border rounded-full">
                             <button onClick={() => updateQuantity(index, item.quantity - 1)} className="p-2">
-                                <Minus size={16} />
+                                <Minus className='tg-theme-text' size={16} />
                             </button>
-                            <span className="mx-2 min-w-[20px] text-center">{item.quantity}</span>
+                            <span className="mx-2 min-w-[20px] text-center tg-theme-text">{item.quantity}</span>
                             <button onClick={() => updateQuantity(index, item.quantity + 1)} className="p-2">
-                                <Plus size={16} />
+                                <Plus className='tg-theme-text' size={16} />
                             </button>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="p-4 bg-gray-50 fixed w-full bottom-0">
+            <div className="p-4  bg-tg-theme-secondary-bg bg-gray-50 fixed w-full bottom-0">
                 <div className="flex justify-between mb-2">
-                    <span>Сумма заказа</span>
-                    <span className="font-bold">{subtotal} ₽</span>
+                    <span className='tg-theme-text'>Сумма заказа</span>
+                    <span className="font-bold tg-theme-text">{subtotal} ₽</span>
                 </div>
                 <div className="flex justify-between mb-2">
-                    <span>Доставка</span>
-                    <span>Бесплатно</span>
+                    <span className='tg-theme-text'>Доставка</span>
+                    <span className='tg-theme-text'>Бесплатно</span>
                 </div>
                 <div className={`flex items-center justify-between mb-4 ${!canUseBonus ? 'opacity-50' : ''}`}>
-                    <span>
+                    <span className='tg-theme-text'>
                         Оплатить бонусами ({bonusAmount} ₽)
                         {!canUseBonus && (
-                            <span className="text-sm text-red-500 block">
+                            <span className="text-sm text-red-500 block ">
                                 Доступно при заказе от 800 ₽
                             </span>
                         )}
@@ -115,8 +115,8 @@ const PizzaBasket: React.FC = () => {
                     </label>
                 </div>
                 <div className="flex justify-between text-lg font-bold mb-4">
-                    <span>Итого</span>
-                    <span>{totalWithBonus} ₽</span>
+                    <span className='tg-theme-text'>Итого</span>
+                    <span className='tg-theme-text'>{totalWithBonus} ₽</span>
                 </div>
                 <NavLink to={'/pizza_order'} className="inline-block text-center w-full bg-blue-500 text-white py-3 rounded-lg font-semibold">
                     Продолжить
