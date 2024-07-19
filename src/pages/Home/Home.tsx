@@ -39,11 +39,9 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const { data } = useFetchData('https://pizza-webapp-server.onrender.com/products')
+    const { data } = useFetchData('https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products')
 
     console.log(data)
-
-
     return (
         <>
             <Search />
@@ -79,7 +77,7 @@ function Home() {
             </ul>
             <MainSection>
                 <h4 className='text-[16px] font-bold mb-[15px] tg-theme-text' ref={homeRef}>Пицца🍕</h4>
-                <Card />
+                <Card data={data} />
 
                 <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
                 <Card />

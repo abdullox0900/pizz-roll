@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react'
 
 // Defining an interface for the fetched data structure
 interface FetchData<T> {
-    data: T | null
+    data?: T | null
     loading: boolean
     error: string | null
 }
 
 // Custom hook to fetch data from a given URL
 const useFetchData = <T,>(url: string): FetchData<T> => {
+
     const [data, setData] = useState<T | null>(null) // State to store the fetched data
     const [loading, setLoading] = useState<boolean>(true) // State to track the loading status
     const [error, setError] = useState<string | null>(null) // State to store any errors
@@ -19,13 +20,12 @@ const useFetchData = <T,>(url: string): FetchData<T> => {
         // Async function to fetch data from the given URL
         const fetchData = async () => {
             try {
-                const response = await fetch(url) // Fetching data from the URL
-                if (!response.ok) {
-                    // Throwing an error if the response is not ok
-                    throw new Error('Ma\'lumotlarni yuklashda xatolik yuz berdi.')
-                }
-                const result = await response.json() // Parsing the JSON response
-                setData(result) // Setting the fetched data to state
+                const response = await fetch(url)
+                // if (!response.ok) {
+                //     throw new Error('Ma\'lumotlarni yuklashda xatolik yuz berdi.')
+                // }
+                const result = await response.json()
+                setData(result)
             } catch (error) {
                 // Setting the error state if an error occurs
                 setError('Ma\'lumotlarni yuklashda xatolik yuz berdi.')

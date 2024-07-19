@@ -28,7 +28,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/orders' element={<Orders />} />
           <Route path='/favorites' element={<Favorites />} />
-          <Route path='/inner' element={<Inner />} />
+          <Route path='/inner/:id' element={<Inner />} />
           <Route path='/pizza_basket' element={<PizzaBasket />} />
           <Route path='/pizza_order' element={<OrderForm />} />
         </Routes>
