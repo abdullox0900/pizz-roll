@@ -1,6 +1,9 @@
 import { NavLink } from 'react-router-dom'
 
 const Card = ({ data }: any) => {
+
+
+
     return (
         <ul className='grid grid-cols-2 gap-[10px]'>
             {

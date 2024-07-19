@@ -2,6 +2,7 @@ import { Minus, Plus } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import { useCart } from '../../context/CartContext'
 
 interface CartItem {
     name: string
@@ -12,25 +13,20 @@ interface CartItem {
     image: string
 }
 
+export interface PizzaData {
+    product_name: string
+    product_img: string
+    product_price: string
+    product_urls: string[]
+    product_discount: string
+    product_description: string
+    productId: string
+}
+
 const PizzaBasket: React.FC = () => {
-    const [cartItems, setCartItems] = useState<CartItem[]>([
-        {
-            name: 'Пицца из половинок',
-            size: 'Маленькая',
-            extras: 'Не нужно',
-            price: 550,
-            quantity: 2,
-            image: 'https://admin.webbot.shop/storage/2024/02/11/ff4765178193cee55b5c44b63b0d7c4424ff378f.jpg',
-        },
-        {
-            name: 'Пицца из половинок',
-            size: 'Маленькая',
-            extras: 'Не нужно',
-            price: 550,
-            quantity: 2,
-            image: 'https://admin.webbot.shop/storage/2024/02/11/ff4765178193cee55b5c44b63b0d7c4424ff378f.jpg',
-        },
-    ])
+    const { items, removeItem } = useCart()
+    const [cartItems, setCartItems] = useState<CartItem[]>([])
+
     const [useBonus, setUseBonus] = useState(false)
     const [bonusAmount, setBonusAmount] = useState(500)
 
@@ -48,14 +44,32 @@ const PizzaBasket: React.FC = () => {
         setBonusAmount(500)
     }, [])
 
+    useEffect(() => {
+        const formattedItems = items.map(item => ({
+            name: item.product_name,
+            size: 'Маленькая', // Bu qiymatlarni mos ravishda o'zgartiring
+            extras: 'Не нужно', // Bu qiymatlarni mos ravishda o'zgartiring
+            price: parseFloat(item.product_price), // product_price ni son tipiga o'tkazamiz
+            quantity: 1, // Dastlabki qiymatni mos ravishda belgilang
+            image: item.product_img,
+        }))
+        setCartItems(formattedItems)
+    }, [items])
+
     const updateQuantity = (index: number, newQuantity: number) => {
         const updatedItems = [...cartItems]
-        updatedItems[index].quantity = Math.max(1, newQuantity)
+        if (newQuantity === 0) {
+            const itemToRemove = updatedItems[index]
+            removeItem(itemToRemove.name)
+            updatedItems.splice(index, 1)
+        } else {
+            updatedItems[index].quantity = newQuantity
+        }
         setCartItems(updatedItems)
     }
 
     return (
-        <div className=" bg-tg-theme-secondary-bg">
+        <div className="bg-tg-theme-secondary-bg">
             <TelegramBackButton />
             <h2 className="text-2xl font-bold p-4 border-b tg-theme-text">Корзина</h2>
             <div className="divide-y">
@@ -82,7 +96,7 @@ const PizzaBasket: React.FC = () => {
                     </div>
                 ))}
             </div>
-            <div className="p-4  bg-tg-theme-secondary-bg bg-gray-50 fixed w-full bottom-0">
+            <div className="p-4 bg-tg-theme-secondary-bg bg-gray-50 fixed w-full bottom-0">
                 <div className="flex justify-between mb-2">
                     <span className='tg-theme-text'>Сумма заказа</span>
                     <span className="font-bold tg-theme-text">{subtotal} ₽</span>

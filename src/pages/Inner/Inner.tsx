@@ -7,16 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and Swipe
 import MainSection from '../../components/MainSection/MainSection'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 import useFetchData from '../../hooks/useFetcher'
-
-interface PizzaData {
-    product_name: string
-    product_img: string
-    product_price: string
-    product_urls: string[]
-    product_discount: string
-    product_description: string
-    productId: string
-}
+import { useCart } from '../../context/CartContext'
+import { PizzaData } from '../../types/type'
 
 const Inner = () => {
 
@@ -53,8 +45,7 @@ const Inner = () => {
 
     const { data } = useFetchData<PizzaData>(`https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products/${id}`)
 
-    console.log(data)
-
+    const { addItem } = useCart()
 
     return (
         <MainSection>
@@ -78,10 +69,10 @@ const Inner = () => {
                                 })
                             }
                         </Swiper>
-                        <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>🔥Пицца из половинок</div>
+                        <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>{data.product_name}</div>
                         <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
-                            <div className='text-blue-500 text-[22px] font-bold'>550 ₽</div>
-                            <span className='text-gray-500 font-bold line-through'>650 ₽</span>
+                            <div className='text-blue-500 text-[22px] font-bold'>{data.product_price} ₽</div>
+                            <span className='text-gray-500 font-bold line-through'>{data.product_discount} ₽</span>
                             <span className='text-[14px] text-green-600 ml-[4px] font-semibold'>-15%</span>
                         </div>
                         <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
@@ -146,7 +137,7 @@ const Inner = () => {
                         <NavLink to={'/pizza_basket'} className='inline-block text-center bg-blue-500 text-[14px] text-white w-full p-[7px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</NavLink>
                     </div>
                 )} */}
-                            <button className=' bg-blue-500 text-[14px] text-white w-full py-[7px] rounded-[8px]' >Добавить в корзину</button>
+                            <button className=' bg-blue-500 text-[14px] text-white w-full py-[7px] rounded-[8px]' onClick={() => addItem(data)} >Добавить в корзину</button>
                         </div>
                     </>
                 ) : (
