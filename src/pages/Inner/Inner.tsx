@@ -64,36 +64,36 @@ const Inner = () => {
                 <span className='text-[14px] text-green-600 ml-[4px] font-semibold'>-15%</span>
             </div>
             <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
-                <div className='text-[16px] font-semibold'>Размер пиццы</div>
-                <span className='text-gray-500 text-[12px]'>Выберите размер пиццы:</span>
+                <div className='text-[16px] font-semibold tg-theme-text'>Размер пиццы</div>
+                <span className='text-gray-500 text-[12px] tg-theme-text'>Выберите размер пиццы:</span>
                 <Radio.Group className='flex flex-col gap-[5px] mt-[10px]' onChange={onChangeRadio} value={radioValue}>
                     <div className='flex items-center justify-between'>
                         <Radio value={1}>Маленькая</Radio>
-                        <span className='text-[14px]'>+0 ₽</span>
+                        <span className='text-[14px] tg-theme-text'>+0 ₽</span>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <Radio value={2}>Средняя</Radio>
-                        <span className='text-[14px]'>+150 ₽</span>
+                        <Radio value={2} className='tg-theme-text'>Средняя</Radio>
+                        <span className='text-[14px] tg-theme-text'>+150 ₽</span>
                     </div><div className='flex items-center justify-between'>
-                        <Radio value={3}>Большая</Radio>
-                        <span className='text-[14px]'>+250 ₽</span>
+                        <Radio value={3} className='tg-theme-text'>Большая</Radio>
+                        <span className='text-[14px] tg-theme-text'>+250 ₽</span>
                     </div>
                 </Radio.Group>
 
-                <div className='text-[16px] font-semibold mt-[15px]'>Добавки</div>
-                <span className='text-gray-500 text-[12px] '>Выберите добавки к пицце:</span>
+                <div className='text-[16px] font-semibold mt-[15px] tg-theme-text'>Добавки</div>
+                <span className='text-gray-500 text-[12px]'>Выберите добавки к пицце:</span>
                 <div className='flex flex-col gap-[5px] mt-[10px]'>
                     <div className='flex items-center justify-between'>
-                        <Checkbox onChange={onChange}>Не нужно</Checkbox>
-                        <span className='text-[14px]'>+0 ₽</span>
+                        <Checkbox onChange={onChange} className='tg-theme-text'>Не нужно</Checkbox>
+                        <span className='text-[14px] tg-theme-text'>+0 ₽</span>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <Checkbox onChange={onChange}>Шампиньоны</Checkbox>
-                        <span className='text-[14px]'>+50 ₽</span>
+                        <Checkbox onChange={onChange} className='tg-theme-text'>Шампиньоны</Checkbox>
+                        <span className='text-[14px] tg-theme-text'>+50 ₽</span>
                     </div>
                 </div>
             </div>
-            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
+            <div className='bg-tg-theme-secondary-bg  p-[20px] rounded-[20px] mb-[20px]'>
                 <div className='mb-[20px] tg-theme-text'> Демонстрация наполнения</div>
 
                 <div className='mb-[20px] tg-theme-text'>В состав входят:</div>
@@ -108,11 +108,11 @@ const Inner = () => {
                     }
                 </div>
             </div>
-            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[150px]'>
+            <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[150px]'>
                 <div className='text-[16px] font-bold tg-theme-text'>Отзывы</div>
             </div>
 
-            <div className='fixed left-0 bottom-0 w-full p-[15px] bg-white border-t-[1px] border-gray-300 rounded-t-[15px]'>
+            <div className='fixed left-0 bottom-0 w-full p-[15px] bg-tg-theme-secondary-bg border-t-[1px] rounded-t-[15px]'>
                 {quantity === 0 ? (
                     <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
                 ) : (
