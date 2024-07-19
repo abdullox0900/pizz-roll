@@ -78,13 +78,13 @@ function Home() {
                 }
             </ul>
             <MainSection>
-                <h4 className='text-[16px] font-bold mb-[15px] text-tg-theme-text' ref={homeRef}>Пицца🍕</h4>
+                <h4 className='text-[16px] font-bold mb-[15px] tg-theme-text' ref={homeRef}>Пицца🍕</h4>
                 <Card data={data} />
 
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] text-tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
+                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
                 <Card />
 
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] text-tg-theme-text' ref={snacksRef}>Закуски🍟</h4>
+                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={snacksRef}>Закуски🍟</h4>
                 <Card />
             </MainSection>
         </>

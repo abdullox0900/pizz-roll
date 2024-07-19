@@ -1,10 +1,10 @@
 import type { CheckboxProps, RadioChangeEvent } from 'antd'
 import { Checkbox, Radio } from 'antd'
 import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and SwiperSlide components from swiper
 import MainSection from '../../components/MainSection/MainSection'
-import { Pagination } from 'swiper/modules'
-import { NavLink } from 'react-router-dom'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
 

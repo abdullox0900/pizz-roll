@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2016,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
