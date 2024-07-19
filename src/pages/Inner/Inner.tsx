@@ -57,13 +57,13 @@ const Inner = () => {
                     })
                 }
             </Swiper>
-            <div className='text-[18px] font-bold mb-[15px]'>🔥Пицца из половинок</div>
-            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
+            <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>🔥Пицца из половинок</div>
+            <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
                 <div className='text-blue-500 text-[22px] font-bold'>550 ₽</div>
                 <span className='text-gray-500 font-bold line-through'>650 ₽</span>
                 <span className='text-[14px] text-green-600 ml-[4px] font-semibold'>-15%</span>
             </div>
-            <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
+            <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
                 <div className='text-[16px] font-semibold'>Размер пиццы</div>
                 <span className='text-gray-500 text-[12px]'>Выберите размер пиццы:</span>
                 <Radio.Group className='flex flex-col gap-[5px] mt-[10px]' onChange={onChangeRadio} value={radioValue}>
@@ -94,9 +94,9 @@ const Inner = () => {
                 </div>
             </div>
             <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[20px]'>
-                <div className='mb-[20px]'> Демонстрация наполнения</div>
+                <div className='mb-[20px] tg-theme-text'> Демонстрация наполнения</div>
 
-                <div className='mb-[20px]'>В состав входят:</div>
+                <div className='mb-[20px] tg-theme-text'>В состав входят:</div>
 
                 <div className='flex flex-col gap-[30px]'>
                     {
@@ -109,7 +109,7 @@ const Inner = () => {
                 </div>
             </div>
             <div className='bg-aliceblue p-[20px] rounded-[20px] mb-[150px]'>
-                <div className='text-[16px] font-bold'>Отзывы</div>
+                <div className='text-[16px] font-bold tg-theme-text'>Отзывы</div>
             </div>
 
             <div className='fixed left-0 bottom-0 w-full p-[15px] bg-white border-t-[1px] border-gray-300 rounded-t-[15px]'>
