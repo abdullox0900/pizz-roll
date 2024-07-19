@@ -67,7 +67,7 @@ const PizzaBasket: React.FC = () => {
                                 <h3 className="font-semibold text-lg tg-theme-text">🔥{item.name}</h3>
                                 <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>
                                 <p className="text-sm text-gray-500">Добавки: {item.extras}</p>
-                                <p className="font-bold mt-1">{item.price} ₽</p>
+                                <p className="font-bold mt-1 tg-theme-text">{item.price} ₽</p>
                             </div>
                         </div>
                         <div className="flex items-center border rounded-full">
