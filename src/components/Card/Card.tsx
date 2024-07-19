@@ -9,7 +9,7 @@ const Card = ({ data = [1, 2, 3] }: any) => {
             {
                 data?.map((item: any, index: number) => {
                     return (
-                        <li className='w-[200px]' key={index} >
+                        <li className='w-[180px]' key={index} >
                             <NavLink to={'/inner'}>
                                 <img className='w-full h-[180px] rounded-[20px] mb-[10px]' src={imgUrl} alt="" />
                                 <h4 className='text-[14px] mb-[3px]'>{item.name ? item.name : '🔥Пицца из половинок'}</h4>
