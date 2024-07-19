@@ -68,7 +68,7 @@ const Inner = () => {
                 <span className='text-gray-500 text-[12px] tg-theme-text'>Выберите размер пиццы:</span>
                 <Radio.Group className='flex flex-col gap-[5px] mt-[10px]' onChange={onChangeRadio} value={radioValue}>
                     <div className='flex items-center justify-between'>
-                        <Radio value={1}>Маленькая</Radio>
+                        <Radio value={1} className='tg-theme-text'>Маленькая</Radio>
                         <span className='text-[14px] tg-theme-text'>+0 ₽</span>
                     </div>
                     <div className='flex items-center justify-between'>
@@ -102,7 +102,7 @@ const Inner = () => {
                     {
                         info.map((item: string) => {
                             return (
-                                <span>{item}</span>
+                                <span className='tg-theme-text'>{item}</span>
                             )
                         })
                     }
@@ -112,17 +112,17 @@ const Inner = () => {
                 <div className='text-[16px] font-bold tg-theme-text'>Отзывы</div>
             </div>
 
-            <div className='fixed left-0 bottom-0 w-full p-[15px] bg-tg-theme-secondary-bg border-t-[1px] rounded-t-[15px]'>
+            <div className='fixed left-0 bottom-0 w-full p-[20px] bg-tg-theme-secondary-bg rounded-t-[15px]'>
                 {quantity === 0 ? (
-                    <button className=' bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
+                    <button className=' bg-blue-500 text-[14px] text-white w-full py-[7px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</button>
                 ) : (
                     <div className='grid grid-cols-2 gap-[10px]'>
                         <div className='w-full flex justify-between items-center border-[1px] p-[4px] rounded-[8px]'>
                             <button className='flex items-center justify-center w-[25px] h-[25px] bg-aliceblue rounded-[5px] text-[12px]' onClick={decrementQuantity}>-</button>
-                            <span className='text-[12px]'>{quantity} шт</span>
+                            <span className='text-[12px] tg-theme-text'>{quantity} шт</span>
                             <button className='flex items-center justify-center w-[25px] h-[25px] bg-aliceblue rounded-[5px] text-[12px]' onClick={incrementQuantity}>+</button>
                         </div>
-                        <NavLink to={'/pizza_basket'} className='inline-block text-center bg-blue-500 text-[14px] text-white w-full p-[5px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</NavLink>
+                        <NavLink to={'/pizza_basket'} className='inline-block text-center bg-blue-500 text-[14px] text-white w-full p-[7px] rounded-[8px]' onClick={handleAddToCart}>Добавить в корзину</NavLink>
                     </div>
                 )}
             </div>
