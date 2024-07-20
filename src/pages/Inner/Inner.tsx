@@ -4,10 +4,11 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from "swiper/react" // Importing Swiper and SwiperSlide components from swiper
+import Loading from '../../components/Loading/Loading'
 import MainSection from '../../components/MainSection/MainSection'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
-import useFetchData from '../../hooks/useFetcher'
 import { useCart } from '../../context/CartContext'
+import useFetchData from '../../hooks/useFetcher'
 import { PizzaData } from '../../types/type'
 
 const Inner = () => {
@@ -43,9 +44,11 @@ const Inner = () => {
     //     setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 0))
     // }
 
-    const { data } = useFetchData<PizzaData>(`https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products/${id}`)
+    const { data, loading } = useFetchData<PizzaData>(`https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products/${id}`)
 
     const { addItem } = useCart()
+
+    loading ? <Loading /> : ''
 
     return (
         <MainSection>
@@ -141,7 +144,7 @@ const Inner = () => {
                         </div>
                     </>
                 ) : (
-                    <p>No Data</p>
+                    <Loading />
                 )
             }
         </MainSection>

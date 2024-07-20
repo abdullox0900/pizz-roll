@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
+import Loading from '../../components/Loading/Loading'
 import MainSection from '../../components/MainSection/MainSection'
 import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
 import { ScrollContext } from '../../context/ScrollContext'
 import useFetchData from '../../hooks/useFetcher'
+import { PizzaData } from '../PizzaBasket/PizzaBasket'
 
 interface Refs {
     homeRef: React.RefObject<HTMLDivElement>
@@ -39,9 +41,10 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const { data } = useFetchData('https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products')
+    const { data, loading } = useFetchData('https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products')
 
-    console.log(data)
+    loading ? <Loading /> : ''
+
     return (
         <>
             <Search />
@@ -79,11 +82,11 @@ function Home() {
                 <h4 className='text-[16px] font-bold mb-[15px] tg-theme-text' ref={homeRef}>Пицца🍕</h4>
                 <Card data={data} />
 
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
+                {/* <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
                 <Card />
 
                 <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={snacksRef}>Закуски🍟</h4>
-                <Card />
+                <Card /> */}
             </MainSection>
         </>
     )
