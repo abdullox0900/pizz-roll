@@ -84,7 +84,7 @@ const PizzaBasket: React.FC = () => {
                                 <p className="font-bold mt-1 tg-theme-text">{item.product_price} ₽</p>
                             </div>
                         </div>
-                        <div className="flex items-center mb-2">
+                        <div className="grid grid-cols-2 justify-between mb-2 gap-1">
                             <div className="flex items-center border rounded-full mr-2">
                                 <button onClick={() => updateQuantity(index, item.quantity - 1)} className="p-2">
                                     <Minus className='tg-theme-text' size={16} />
@@ -95,7 +95,7 @@ const PizzaBasket: React.FC = () => {
                                 </button>
                             </div>
                             <button onClick={() => handleRemoveItem(index)} className="p-2">
-                                <Trash className='tg-theme-text' size={16} />
+                                <Trash className='text-red-500' size={16} />
                             </button>
                         </div>
                     </div>

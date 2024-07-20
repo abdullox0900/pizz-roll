@@ -1,0 +1,64 @@
+.notification {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    /* White background for the full-screen div */
+    color: #000;
+    /* Black text color */
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-out, visibility 1s ease-out;
+    z-index: 1000;
+    /* Ensure notification is above other content */
+}
+
+.notification.show {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeIn 1s ease-out;
+}
+
+.notification.hide {
+    opacity: 0;
+    visibility: hidden;
+    animation: fadeOut 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.bonus-amount {
+    font-weight: bold;
+}

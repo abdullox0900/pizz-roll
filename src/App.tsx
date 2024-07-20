@@ -12,6 +12,7 @@ import Profile from './pages/Profile/Profile'
 
 // Styles
 import './App.css'
+import BonusNotification from './components/BonusNotification/BonusNotification'
 import Inner from './pages/Inner/Inner'
 import OrderForm from './pages/OrderForm/OrderForm'
 import PizzaBasket from './pages/PizzaBasket/PizzaBasket'
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <TransitionGroup>
+      <BonusNotification />
       <CSSTransition key={locationKey.key} classNames="fade" timeout={300}>
         <Routes>
           <Route path='/' element={<Home />} />

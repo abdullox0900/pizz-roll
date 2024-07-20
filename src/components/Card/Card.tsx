@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-import Loading from '../Loading/Loading'
 
 const Card = ({ data }: any) => {
 
@@ -22,7 +21,8 @@ const Card = ({ data }: any) => {
                         )
                     })
                 ) : (
-                    <Loading />
+                    // <Loading /> ""
+                    <></>
                 )
             }
         </ul>
