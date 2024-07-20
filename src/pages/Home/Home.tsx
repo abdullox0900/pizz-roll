@@ -8,7 +8,6 @@ import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
 import { ScrollContext } from '../../context/ScrollContext'
 import useFetchData from '../../hooks/useFetcher'
-import { PizzaData } from '../PizzaBasket/PizzaBasket'
 
 interface Refs {
     homeRef: React.RefObject<HTMLDivElement>
@@ -16,6 +15,7 @@ interface Refs {
     snacksRef: React.RefObject<HTMLDivElement>
     [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
 }
+
 
 const NavigationFood = [
     {

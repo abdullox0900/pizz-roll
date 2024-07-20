@@ -1,17 +1,8 @@
-import { Minus, Plus } from 'lucide-react'
+import { Minus, Plus, Trash } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 import { useCart } from '../../context/CartContext'
-
-interface CartItem {
-    name: string
-    size: string
-    extras: string
-    price: number
-    quantity: number
-    image: string
-}
 
 export interface PizzaData {
     product_name: string
@@ -21,18 +12,33 @@ export interface PizzaData {
     product_discount: string
     product_description: string
     productId: string
+    quantity: number
+    size?: string
+    extras?: string
 }
 
 const PizzaBasket: React.FC = () => {
-    const { items, removeItem } = useCart()
-    const [cartItems, setCartItems] = useState<CartItem[]>([])
+    const { items, removeItem, updateItem } = useCart()
+    const [cartItems, setCartItems] = useState<PizzaData[]>([])
 
     const [useBonus, setUseBonus] = useState(false)
     const [bonusAmount, setBonusAmount] = useState(500)
 
-    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    // Calculate subtotal with quantity
+    const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.product_price) * item.quantity), 0)
     const canUseBonus = subtotal >= 800
     const totalWithBonus = Math.max(0, subtotal - (useBonus && canUseBonus ? bonusAmount : 0))
+
+    useEffect(() => {
+        // Transform items to PizzaData format and update state
+        const formattedItems = items.map(item => ({
+            ...item,
+            quantity: item.quantity || 1,
+        }))
+        setCartItems(formattedItems)
+        // Update localStorage
+        localStorage.setItem('cartItems', JSON.stringify(formattedItems))
+    }, [items])
 
     useEffect(() => {
         if (!canUseBonus) {
@@ -40,33 +46,27 @@ const PizzaBasket: React.FC = () => {
         }
     }, [canUseBonus])
 
+    const updateQuantity = (index: number, newQuantity: number) => {
+        const updatedItems = [...cartItems]
+        updatedItems[index].quantity = Math.max(1, newQuantity)
+        setCartItems(updatedItems)
+        // Update the item in the cart context
+        updateItem(updatedItems[index].productId, updatedItems[index])
+        // Update localStorage
+        localStorage.setItem('cartItems', JSON.stringify(updatedItems))
+    }
+
+    const handleRemoveItem = (index: number) => {
+        const itemToRemove = cartItems[index]
+        removeItem(itemToRemove.productId)
+        // The cart context will update, triggering a re-render
+    }
+
     useEffect(() => {
         setBonusAmount(500)
     }, [])
 
-    useEffect(() => {
-        const formattedItems = items.map(item => ({
-            name: item.product_name,
-            size: 'Маленькая', // Bu qiymatlarni mos ravishda o'zgartiring
-            extras: 'Не нужно', // Bu qiymatlarni mos ravishda o'zgartiring
-            price: parseFloat(item.product_price), // product_price ni son tipiga o'tkazamiz
-            quantity: 1, // Dastlabki qiymatni mos ravishda belgilang
-            image: item.product_img,
-        }))
-        setCartItems(formattedItems)
-    }, [items])
-
-    const updateQuantity = (index: number, newQuantity: number) => {
-        const updatedItems = [...cartItems]
-        if (newQuantity === 0) {
-            const itemToRemove = updatedItems[index]
-            removeItem(itemToRemove.name)
-            updatedItems.splice(index, 1)
-        } else {
-            updatedItems[index].quantity = newQuantity
-        }
-        setCartItems(updatedItems)
-    }
+    const isCartEmpty = cartItems.length === 0
 
     return (
         <div className="bg-tg-theme-secondary-bg">
@@ -76,21 +76,26 @@ const PizzaBasket: React.FC = () => {
                 {cartItems.map((item, index) => (
                     <div key={index} className="flex flex-col items-start justify-between p-4">
                         <div className='flex items-center mb-[15px]'>
-                            <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                            <img src={item.product_img} alt={item.product_name} className="w-20 h-20 object-cover rounded-lg mr-4" />
                             <div className="flex-grow">
-                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.name}</h3>
-                                <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>
-                                <p className="text-sm text-gray-500">Добавки: {item.extras}</p>
-                                <p className="font-bold mt-1 tg-theme-text">{item.price} ₽</p>
+                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.product_name}</h3>
+                                {item.size && <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>}
+                                {item.extras && <p className="text-sm text-gray-500">Добавки: {item.extras}</p>}
+                                <p className="font-bold mt-1 tg-theme-text">{item.product_price} ₽</p>
                             </div>
                         </div>
-                        <div className="flex items-center border rounded-full">
-                            <button onClick={() => updateQuantity(index, item.quantity - 1)} className="p-2">
-                                <Minus className='tg-theme-text' size={16} />
-                            </button>
-                            <span className="mx-2 min-w-[20px] text-center tg-theme-text">{item.quantity}</span>
-                            <button onClick={() => updateQuantity(index, item.quantity + 1)} className="p-2">
-                                <Plus className='tg-theme-text' size={16} />
+                        <div className="flex items-center mb-2">
+                            <div className="flex items-center border rounded-full mr-2">
+                                <button onClick={() => updateQuantity(index, item.quantity - 1)} className="p-2">
+                                    <Minus className='tg-theme-text' size={16} />
+                                </button>
+                                <span className="mx-2 min-w-[20px] text-center tg-theme-text">{item.quantity}</span>
+                                <button onClick={() => updateQuantity(index, item.quantity + 1)} className="p-2">
+                                    <Plus className='tg-theme-text' size={16} />
+                                </button>
+                            </div>
+                            <button onClick={() => handleRemoveItem(index)} className="p-2">
+                                <Trash className='tg-theme-text' size={16} />
                             </button>
                         </div>
                     </div>
@@ -132,7 +137,14 @@ const PizzaBasket: React.FC = () => {
                     <span className='tg-theme-text'>Итого</span>
                     <span className='tg-theme-text'>{totalWithBonus} ₽</span>
                 </div>
-                <NavLink to={'/pizza_order'} className="inline-block text-center w-full bg-blue-500 text-white py-3 rounded-lg font-semibold">
+                <NavLink
+                    to={isCartEmpty ? '#' : '/pizza_order'}
+                    className={`inline-block text-center w-full py-3 rounded-lg font-semibold ${isCartEmpty
+                        ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                        : 'bg-blue-500 text-white'
+                        }`}
+                    onClick={(e) => isCartEmpty && e.preventDefault()}
+                >
                     Продолжить
                 </NavLink>
             </div>
