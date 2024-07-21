@@ -26,7 +26,7 @@ const PizzaBasket: React.FC = () => {
 
     // Calculate subtotal with quantity
     const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.product_price) * item.quantity), 0)
-    const canUseBonus = subtotal >= 800
+    const canUseBonus = subtotal >= 350
     const totalWithBonus = Math.max(0, subtotal - (useBonus && canUseBonus ? bonusAmount : 0))
 
     useEffect(() => {
@@ -115,7 +115,7 @@ const PizzaBasket: React.FC = () => {
                         Оплатить бонусами ({bonusAmount} ₽)
                         {!canUseBonus && (
                             <span className="text-sm text-red-500 block ">
-                                Доступно при заказе от 800 ₽
+                                Доступно при заказе от 350-500 ₽
                             </span>
                         )}
                     </span>

@@ -7,25 +7,28 @@ const BonusNotification: React.FC = () => {
 
     useEffect(() => {
         if (visible) {
-            // Define a function to trigger confetti
+            // Confetti effektini sekinroq va ko'proq vaqt davomida ko'rsatish
             const triggerConfetti = () => {
                 confetti({
-                    origin: { x: Math.random(), y: Math.random() },
+                    particleCount: 50,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    gravity: 1.5,
+                    scalar: 1.2,
+                    ticks: 2000
                 })
             }
 
-            // Trigger confetti in a synchronized and slower manner
-            const intervals = [0, 1000, 2000, 3000] // Interval times in milliseconds
-            intervals.forEach((interval, index) => {
-                setTimeout(() => {
-                    triggerConfetti()
-                }, interval)
+            // Confetti effektini bir necha marta ishga tushirish
+            const intervals = [0, 1000, 1000]
+            intervals.forEach((interval) => {
+                setTimeout(triggerConfetti, interval)
             })
 
-            // Hide notification after 7 seconds
+            // Xabarnomani 10 soniyadan keyin yashirish
             const timer = setTimeout(() => {
                 setVisible(false)
-            }, 7000)
+            }, 10000)
 
             return () => clearTimeout(timer)
         }
