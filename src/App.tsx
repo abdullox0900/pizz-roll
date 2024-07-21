@@ -16,6 +16,7 @@ import BonusNotification from './components/BonusNotification/BonusNotification'
 import Inner from './pages/Inner/Inner'
 import OrderForm from './pages/OrderForm/OrderForm'
 import PizzaBasket from './pages/PizzaBasket/PizzaBasket'
+import FloatingBasket from './components/FloatingBasket/FloatingBasket'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
   return (
     <TransitionGroup>
       <BonusNotification />
+      <FloatingBasket />
       <CSSTransition key={locationKey.key} classNames="fade" timeout={300}>
         <Routes>
           <Route path='/' element={<Home />} />

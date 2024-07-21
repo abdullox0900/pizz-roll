@@ -1,6 +1,20 @@
 import { Checkbox } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+
+const useTelegramWebApp = () => {
+    const tg = (window as any).Telegram?.WebApp
+
+    return {
+        ready: () => {
+            if (tg?.ready) tg.ready()
+        },
+        sendData: (data: string) => {
+            if (tg?.sendData) tg.sendData(data)
+        },
+        // Добавьте здесь другие методы Telegram Web App API, если они вам нужны
+    }
+}
 
 const OrderForm: React.FC = () => {
     const [name, setName] = useState<string>('')
@@ -10,7 +24,13 @@ const OrderForm: React.FC = () => {
     const [callBeforeDelivery, setCallBeforeDelivery] = useState<boolean>(false)
     const [username, setUsername] = useState<string>('')
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const telegramWebApp = useTelegramWebApp()
+
+    useEffect(() => {
+        telegramWebApp.ready()
+    }, [])
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const orderData = {
             name,
@@ -21,26 +41,8 @@ const OrderForm: React.FC = () => {
             username
         }
 
-        try {
-            const response = await fetch('https://your-api-server.com/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(orderData)
-            })
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-            const responseData = await response.json()
-            console.log('Order submitted successfully!', responseData)
-            alert('Order submitted successfully!')
-        } catch (error) {
-            console.error('Failed to submit order:', error)
-            alert('Failed to submit order')
-        }
+        telegramWebApp.sendData(JSON.stringify(orderData))
+        console.log('Отладка: данные заказа', orderData)
     }
 
     const inputStyle = "w-full bg-white rounded-lg px-4 py-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-gray-300"
@@ -50,7 +52,7 @@ const OrderForm: React.FC = () => {
         <>
             <TelegramBackButton />
             <h3 className='text-[22px] font-bold text-center my-[30px]'>Оформление заказа</h3>
-            < form onSubmit={handleSubmit} className="bg-gray-100 rounded-[15px] p-6 max-w-md mx-auto space-y-6" >
+            <form onSubmit={handleSubmit} className="bg-gray-100 rounded-[15px] p-6 max-w-md mx-auto space-y-6">
                 <div>
                     <label htmlFor="name" className={labelStyle}>Имя</label>
                     <input
@@ -60,6 +62,7 @@ const OrderForm: React.FC = () => {
                         onChange={(e) => setName(e.target.value)}
                         className={inputStyle}
                         placeholder="Введите ваше имя"
+                        required
                     />
                 </div>
 
@@ -72,6 +75,7 @@ const OrderForm: React.FC = () => {
                         onChange={(e) => setPhone(e.target.value)}
                         className={inputStyle}
                         placeholder="Введите ваш телефон"
+                        required
                     />
                 </div>
 
@@ -84,6 +88,7 @@ const OrderForm: React.FC = () => {
                         onChange={(e) => setAddress(e.target.value)}
                         className={inputStyle}
                         placeholder="Укажите адрес"
+                        required
                     />
                 </div>
 
@@ -103,7 +108,7 @@ const OrderForm: React.FC = () => {
                         checked={callBeforeDelivery}
                         onChange={(e) => setCallBeforeDelivery(e.target.checked)}
                         className="form-checkbox h-5 w-5 text-blue-600"
-                    ></Checkbox>
+                    />
                     <label htmlFor="callBeforeDelivery" className="ml-2 block text-gray-700">
                         Позвонить перед доставкой
                     </label>
@@ -127,7 +132,7 @@ const OrderForm: React.FC = () => {
                 >
                     Отправить заказ
                 </button>
-            </ form>
+            </form>
         </>
     )
 }
