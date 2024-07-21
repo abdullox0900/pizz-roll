@@ -15,20 +15,26 @@ const BonusNotification: React.FC = () => {
                     origin: { y: 0.6 },
                     gravity: 1.5,
                     scalar: 1.2,
-                    ticks: 2000
+                    ticks: 3000
                 })
             }
 
             // Confetti effektini bir necha marta ishga tushirish
-            const intervals = [0, 1000, 1000]
+            const intervals = [0, 1000]
             intervals.forEach((interval) => {
+                triggerConfetti()
+                triggerConfetti()
+                triggerConfetti()
                 setTimeout(triggerConfetti, interval)
             })
 
             // Xabarnomani 10 soniyadan keyin yashirish
             const timer = setTimeout(() => {
                 setVisible(false)
-            }, 10000)
+                triggerConfetti()
+            }, 2000)
+
+            triggerConfetti()
 
             return () => clearTimeout(timer)
         }
