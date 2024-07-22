@@ -1,4 +1,4 @@
-import { Checkbox } from 'antd'
+// import { Checkbox } from 'antd'
 import React, { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
@@ -65,8 +65,7 @@ const OrderForm: React.FC = () => {
     const [phone, setPhone] = useState<string>('')
     const [address, setAddress] = useState<string>('')
     const [comment, setComment] = useState<string>('')
-    const [callBeforeDelivery, setCallBeforeDelivery] = useState<boolean>(false)
-    const [items, setItems] = useState<string>('')
+
 
     const telegramWebApp = useTelegramWebApp()
 
@@ -81,10 +80,7 @@ const OrderForm: React.FC = () => {
             telegramId,
             userPhone: phone,
             userAddress: address,
-            orderItems: items.split(',').map(item => {
-                const [productId, quantity, price] = item.split(':').map(Number)
-                return { productId, quantity, price }
-            })
+            orderItems: []
         }
 
         await telegramWebApp.sendData(orderData)
