@@ -20,15 +20,9 @@ const Info: React.FC = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            try {
-                if (chatId) {
-                    const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
-                    const data = await response.json()
-                    setUserData(data)
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error)
-            }
+            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
+            const data = await response.json()
+            setUserData(data)
         }
 
         fetchUserData()
