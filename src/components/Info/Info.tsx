@@ -3,10 +3,20 @@ import { PiUserCircleDuotone } from 'react-icons/pi'
 import { TbMoneybag } from 'react-icons/tb'
 import MainSection from '../MainSection/MainSection'
 
+interface User {
+    id: string
+    telegramId: string
+    bonus: number
+    name: string
+    username: string
+    profilePic: string
+    createdAt: string
+}
+
 const Info: React.FC = () => {
 
     const [chatId, setChatId] = useState<string | null>(null)
-    const [userData, setUserData] = useState<any | null>(null)
+    const [userData, setUserData] = useState<User | null>(null)
 
 
     // useEffect hook to initialize Telegram WebApp and set chat ID
@@ -20,7 +30,7 @@ const Info: React.FC = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
+            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${5397518546}`)
             const data = await response.json()
             setUserData(data)
         }
@@ -32,8 +42,6 @@ const Info: React.FC = () => {
 
     return (
         <div>
-            <h1>Chat ID: {chatId}</h1>
-            <h2>{userData}</h2>
             <MainSection>
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
