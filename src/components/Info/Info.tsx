@@ -29,13 +29,9 @@ const Info: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
-            const data = await response.json()
+        fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`).then((res) => res.json()).then((data) => {
             setUserData(data)
-        }
-
-        fetchUserData()
+        })
     }, [])
 
 
