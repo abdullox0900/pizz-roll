@@ -30,7 +30,7 @@ const Info: React.FC = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${5397518546}`)
+            const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
             const data = await response.json()
             setUserData(data)
         }
