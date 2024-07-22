@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
+import Info from '../../components/Info/Info'
 import Loading from '../../components/Loading/Loading'
 import MainSection from '../../components/MainSection/MainSection'
 import Search from '../../components/Search/Search'
@@ -85,11 +86,12 @@ function Home() {
     return (
         <>
             <Search />
+            <Info />
             <MainSection>
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>{userData?.name || 'Name'}</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>Name</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>

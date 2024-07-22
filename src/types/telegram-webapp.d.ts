@@ -1,19 +1,30 @@
-interface TelegramWebApp {
-	ready: () => void
-	onEvent: (eventType: string, eventHandler: () => void) => void
-	offEvent: (eventType: string, eventHandler: () => void) => void
-	backgroundColor: string
-	textColor: string
-	hintColor: string
-	linkColor: string
-	buttonColor: string
-	buttonTextColor: string
-	secondaryBackgroundColor: string
-	colorScheme: 'light' | 'dark'
+interface TelegramWebAppUser {
+	id: number
+	first_name?: string
+	last_name?: string
+	username?: string
+	language_code?: string
 }
 
-interface Window {
-	Telegram: {
-		WebApp: TelegramWebApp
+interface TelegramWebAppInitDataUnsafe {
+	user?: TelegramWebAppUser
+	query_id?: string
+	auth_date?: number
+	hash?: string
+}
+
+interface TelegramWebApp {
+	initDataUnsafe?: TelegramWebAppInitDataUnsafe
+	MainButton: {
+		text: string
+		setText(text: string): void
+	}
+}
+
+declare global {
+	interface Window {
+		Telegram: {
+			WebApp: TelegramWebApp
+		}
 	}
 }
