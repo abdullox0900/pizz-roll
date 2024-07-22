@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { PiUserCircleDuotone } from "react-icons/pi"
-import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
 import Info from '../../components/Info/Info'
 import Loading from '../../components/Loading/Loading'
@@ -87,20 +85,6 @@ function Home() {
         <>
             <Search />
             <Info />
-            <MainSection>
-                <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
-                    <div className='flex gap-[5px] items-center'>
-                        <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>Name</span>
-                    </div>
-                    <div className='flex gap-[5px] items-center'>
-                        <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
-                        <span className='flex items-center text-[12px] font-bold text-green-500'>
-                            <TbMoneybag className='text-[14px] text-tg-theme-button' />{userData?.bonus || 0}
-                        </span>
-                    </div>
-                </div>
-            </MainSection>
             <Slider />
             <ul className='w-full overflow-y-scroll scrollbar-hide flex gap-[20px] px-[12px] my-[25px]'>
                 {
