@@ -18,7 +18,6 @@ const Info: React.FC = () => {
     const [chatId, setChatId] = useState<string | null>(null)
     const [userData, setUserData] = useState<User | null>(null)
 
-
     // useEffect hook to initialize Telegram WebApp and set chat ID
     useEffect(() => {
         const tg = window.Telegram.WebApp
@@ -29,12 +28,22 @@ const Info: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`).then((res) => res.json()).then((data) => {
-            setUserData(data)
-        })
-    }, [])
-
-
+        if (chatId) {
+            fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok')
+                    }
+                    return res.json()
+                })
+                .then((data) => {
+                    setUserData(data)
+                })
+                .catch((error) => {
+                    console.error('There has been a problem with your fetch operation:', error)
+                })
+        }
+    }, [chatId])
 
     return (
         <div>
@@ -42,7 +51,7 @@ const Info: React.FC = () => {
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>{userData?.name || 0}</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>{userData?.name || 'No Name'}</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
