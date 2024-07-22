@@ -89,12 +89,12 @@ function Home() {
                 <div className='flex items-center justify-between bg-tg-theme-secondary-bg p-[10px] mb-[15px] rounded-[15px]'>
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
-                        <span className='text-[14px] font-semibold text-tg-theme-text'>Name</span>
+                        <span className='text-[14px] font-semibold text-tg-theme-text'>{userData?.name || 'Name'}</span>
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
                         <span className='flex items-center text-[12px] font-bold text-green-500'>
-                            <TbMoneybag className='text-[14px] text-tg-theme-button' />500
+                            <TbMoneybag className='text-[14px] text-tg-theme-button' />{userData?.bonus || 0}
                         </span>
                     </div>
                 </div>
