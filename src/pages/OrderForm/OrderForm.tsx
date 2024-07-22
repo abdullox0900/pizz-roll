@@ -1,19 +1,63 @@
 import { Checkbox } from 'antd'
 import React, { useEffect, useState } from 'react'
+import InputMask from 'react-input-mask'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 
+interface TelegramWebApp {
+    ready: () => void
+    initDataUnsafe?: {
+        user?: {
+            id: number
+        }
+    }
+}
+
+interface Window {
+    Telegram?: {
+        WebApp: TelegramWebApp
+    }
+}
+
+declare const window: Window
+
 const useTelegramWebApp = () => {
-    const tg = (window as any).Telegram?.WebApp
+    const tg = window.Telegram?.WebApp
 
     return {
+        getChatId: () => tg?.initDataUnsafe?.user?.id || null,
         ready: () => {
             if (tg?.ready) tg.ready()
         },
-        sendData: (data: string) => {
-            if (tg?.sendData) tg.sendData(data)
+        sendData: async (data: object) => {
+            const url = 'YOUR_API_ENDPOINT' // Bu yerda o'zingizning API endpoint manzilingizni kiriting
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+
+            const result = await response.json()
+            if (!response.ok) {
+                console.error('Ошибка при отправке данных на API:', result.message)
+            }
         },
-        // Добавьте здесь другие методы Telegram Web App API, если они вам нужны
     }
+}
+
+interface OrderItem {
+    productId: number
+    quantity: number
+    price: number
+}
+
+interface OrderData {
+    telegramId: number | null
+    userPhone: string
+    userAddress: string
+    orderItems: OrderItem[]
 }
 
 const OrderForm: React.FC = () => {
@@ -22,7 +66,7 @@ const OrderForm: React.FC = () => {
     const [address, setAddress] = useState<string>('')
     const [comment, setComment] = useState<string>('')
     const [callBeforeDelivery, setCallBeforeDelivery] = useState<boolean>(false)
-    const [username, setUsername] = useState<string>('')
+    const [items, setItems] = useState<string>('')
 
     const telegramWebApp = useTelegramWebApp()
 
@@ -30,18 +74,20 @@ const OrderForm: React.FC = () => {
         telegramWebApp.ready()
     }, [])
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const orderData = {
-            name,
-            phone,
-            address,
-            comment,
-            callBeforeDelivery,
-            username
+        const telegramId = telegramWebApp.getChatId()
+        const orderData: OrderData = {
+            telegramId,
+            userPhone: phone,
+            userAddress: address,
+            orderItems: items.split(',').map(item => {
+                const [productId, quantity, price] = item.split(':').map(Number)
+                return { productId, quantity, price }
+            })
         }
 
-        telegramWebApp.sendData(JSON.stringify(orderData))
+        await telegramWebApp.sendData(orderData)
         console.log('Отладка: данные заказа', orderData)
     }
 
@@ -59,7 +105,7 @@ const OrderForm: React.FC = () => {
                         type="text"
                         id="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         className={inputStyle}
                         placeholder="Введите ваше имя"
                         required
@@ -67,16 +113,17 @@ const OrderForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="phone" className={labelStyle}>Телефон</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className={inputStyle}
-                        placeholder="Введите ваш телефон"
-                        required
-                    />
+                    <div>
+                        <label htmlFor="phone" className={labelStyle}>Телефон</label>
+                        <InputMask
+                            mask="+7 (999) 999-99-99"
+                            value={phone}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+                            className={inputStyle}
+                            placeholder="Введите ваш телефон"
+                            required
+                        />
+                    </div>
                 </div>
 
                 <div>
@@ -85,7 +132,7 @@ const OrderForm: React.FC = () => {
                         type="text"
                         id="address"
                         value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)}
                         className={inputStyle}
                         placeholder="Укажите адрес"
                         required
@@ -97,35 +144,11 @@ const OrderForm: React.FC = () => {
                     <textarea
                         id="comment"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}
                         className={`${inputStyle} h-24 resize-none`}
                         placeholder="Оставьте комментарий"
                     ></textarea>
                 </div>
-
-                <div className="flex items-center">
-                    <Checkbox
-                        checked={callBeforeDelivery}
-                        onChange={(e) => setCallBeforeDelivery(e.target.checked)}
-                        className="form-checkbox h-5 w-5 text-blue-600"
-                    />
-                    <label htmlFor="callBeforeDelivery" className="ml-2 block text-gray-700">
-                        Позвонить перед доставкой
-                    </label>
-                </div>
-
-                <div>
-                    <label htmlFor="username" className={labelStyle}>Укажите ваш @username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={inputStyle}
-                        placeholder="Ваше имя пользователя в Телеграм"
-                    />
-                </div>
-
                 <button
                     type="submit"
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"

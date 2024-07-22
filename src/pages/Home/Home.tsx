@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PiUserCircleDuotone } from "react-icons/pi"
 import { TbMoneybag } from "react-icons/tb"
 import Card from '../../components/Card/Card'
@@ -32,6 +32,20 @@ const NavigationFood = [
     },
 ]
 
+declare global {
+    interface Window {
+        Telegram: {
+            WebApp: TelegramWebApp
+        }
+    }
+}
+
+// UserData interfeysi
+interface UserData {
+    name: string
+    bonus: number
+}
+
 function Home() {
     const context = React.useContext(ScrollContext)
     if (!context) return <div>Loading...</div>
@@ -44,6 +58,29 @@ function Home() {
     const { data, loading } = useFetchData('https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products')
 
     loading ? <Loading /> : ''
+
+    const [userData, setUserData] = useState<UserData | null>(null)
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const tg = Telegram.WebApp
+                const chatId = tg.initDataUnsafe?.user?.id
+                if (chatId) {
+                    const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
+                    const data = await response.json()
+                    setUserData(data)
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error)
+            }
+        }
+
+        fetchUserData()
+    }, [])
+
+    console.log(userData)
+
 
     return (
         <>
