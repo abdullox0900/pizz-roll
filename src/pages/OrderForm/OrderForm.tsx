@@ -17,6 +17,7 @@ interface OrderData {
     useBonus: boolean
     orderItems: OrderItem[]
 }
+
 interface User {
     id: string
     telegramId: string
@@ -26,7 +27,6 @@ interface User {
     profilePic: string
     createdAt: string
 }
-
 
 const OrderForm: React.FC = () => {
     const [name, setName] = useState<string>('')
@@ -76,6 +76,12 @@ const OrderForm: React.FC = () => {
 
             if (response.ok) {
                 console.log('Order placed successfully')
+                const tg = Telegram.WebApp
+                tg.MainButton.setText('Информация отправлена')
+                tg.MainButton.show()
+                setTimeout(() => {
+                    tg.close()
+                }, 3000)
                 // Handle successful order (e.g., clear cart, show success message)
             } else {
                 console.error('Failed to place order')
