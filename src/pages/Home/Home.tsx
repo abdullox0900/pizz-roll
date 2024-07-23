@@ -54,32 +54,9 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const { data, loading } = useFetchData('https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products')
+    const { data, loading } = useFetchData('https://pizza-webapp-server.onrender.com/products')
 
     loading ? <Loading /> : ''
-
-    const [userData, setUserData] = useState<UserData | null>(null)
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const tg = Telegram.WebApp
-                const chatId = tg.initDataUnsafe?.user?.id
-                if (chatId) {
-                    const response = await fetch(`https://pizza-webapp-server.onrender.com/users/${chatId}`)
-                    const data = await response.json()
-                    setUserData(data)
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error)
-            }
-        }
-
-        fetchUserData()
-    }, [])
-
-    console.log(userData)
-
 
     return (
         <>

@@ -1,13 +1,12 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 interface Product {
-    product_name: string
-    product_img: string
-    product_price: string
-    product_urls: string[]
-    product_discount: string
-    product_description: string
-    productId: string
+    name: string
+    price: number
+    description: string
+    id: number
+    categoryId: number
+    createdAt: string
 }
 
 interface CartItem extends Product {
@@ -17,8 +16,8 @@ interface CartItem extends Product {
 interface CartContextType {
     items: CartItem[]
     addItem: (product: Product) => void
-    removeItem: (id: string) => void
-    updateItem: (id: string, newItem: CartItem) => void
+    removeItem: (id: number) => void
+    updateItem: (id: number, newItem: CartItem) => void
     clearCart: () => void
     total: number
 }
@@ -27,35 +26,42 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [items, setItems] = useState<CartItem[]>(() => {
-        // Initialize state from localStorage
-        const savedItems = localStorage.getItem('cartItems')
-        return savedItems ? JSON.parse(savedItems) : []
+        try {
+            const savedItems = localStorage.getItem('cartItems')
+            return savedItems ? JSON.parse(savedItems) : []
+        } catch (error) {
+            console.error('Failed to parse cart items from localStorage:', error)
+            return []
+        }
     })
 
     useEffect(() => {
-        // Update localStorage whenever items change
-        localStorage.setItem('cartItems', JSON.stringify(items))
+        try {
+            localStorage.setItem('cartItems', JSON.stringify(items))
+        } catch (error) {
+            console.error('Failed to save cart items to localStorage:', error)
+        }
     }, [items])
 
     const addItem = (product: Product) => {
         setItems(prevItems => {
-            const existingItem = prevItems.find(item => item.productId === product.productId)
+            const existingItem = prevItems.find(item => item.id === product.id)
             if (existingItem) {
                 return prevItems.map(item =>
-                    item.productId === product.productId ? { ...item, quantity: item.quantity + 1 } : item
+                    item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 )
             }
             return [...prevItems, { ...product, quantity: 1 }]
         })
     }
 
-    const removeItem = (id: string) => {
-        setItems(prevItems => prevItems.filter(item => item.productId !== id))
+    const removeItem = (id: number) => {
+        setItems(prevItems => prevItems.filter(item => item.id !== id))
     }
 
-    const updateItem = (id: string, newItem: CartItem) => {
+    const updateItem = (id: number, newItem: CartItem) => {
         setItems(prevItems => prevItems.map(item =>
-            item.productId === id ? newItem : item
+            item.id === id ? newItem : item
         ))
     }
 
@@ -63,7 +69,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setItems([])
     }
 
-    const total = items.reduce((sum, item) => sum + parseFloat(item.product_price) * item.quantity, 0)
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
     return (
         <CartContext.Provider value={{ items, addItem, removeItem, updateItem, clearCart, total }}>
@@ -72,7 +78,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     )
 }
 
-// Karzinka kontekstini ishlatish uchun hook
 export const useCart = () => {
     const context = useContext(CartContext)
     if (context === undefined) {

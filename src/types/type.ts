@@ -7,11 +7,10 @@ export interface MainSectionChildren {
 }
 
 export interface PizzaData {
-	product_name: string
-	product_img: string
-	product_price: string
-	product_urls: string[]
-	product_discount: string
-	product_description: string
-	productId: string
+	name: string
+	price: number
+	description: string
+	id: number
+	categoryId: number
+	createdAt: string
 }

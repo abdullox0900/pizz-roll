@@ -5,13 +5,12 @@ import TelegramBackButton from '../../components/TelegramBackButton/TelegramBack
 import { useCart } from '../../context/CartContext'
 
 export interface PizzaData {
-    product_name: string
-    product_img: string
-    product_price: string
-    product_urls: string[]
-    product_discount: string
-    product_description: string
-    productId: string
+    name: string
+    price: number
+    description: string
+    id: number
+    categoryId: number
+    createdAt: string
     quantity: number
     size?: string
     extras?: string
@@ -25,8 +24,8 @@ const PizzaBasket: React.FC = () => {
     const [bonusAmount, setBonusAmount] = useState(500)
 
     // Calculate subtotal with quantity
-    const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.product_price) * item.quantity), 0)
-    const canUseBonus = subtotal >= 350
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    const canUseBonus = subtotal >= 500
     const totalWithBonus = Math.max(0, subtotal - (useBonus && canUseBonus ? bonusAmount : 0))
 
     useEffect(() => {
@@ -34,6 +33,7 @@ const PizzaBasket: React.FC = () => {
         const formattedItems = items.map(item => ({
             ...item,
             quantity: item.quantity || 1,
+            product_price: item.price,  // Assuming 'price' from CartItem corresponds to 'product_price'
         }))
         setCartItems(formattedItems)
         // Update localStorage
@@ -51,14 +51,14 @@ const PizzaBasket: React.FC = () => {
         updatedItems[index].quantity = Math.max(1, newQuantity)
         setCartItems(updatedItems)
         // Update the item in the cart context
-        updateItem(updatedItems[index].productId, updatedItems[index])
+        updateItem(updatedItems[index].id, updatedItems[index])
         // Update localStorage
         localStorage.setItem('cartItems', JSON.stringify(updatedItems))
     }
 
     const handleRemoveItem = (index: number) => {
         const itemToRemove = cartItems[index]
-        removeItem(itemToRemove.productId)
+        removeItem(itemToRemove.id)
         // The cart context will update, triggering a re-render
     }
 
@@ -76,12 +76,12 @@ const PizzaBasket: React.FC = () => {
                 {cartItems.map((item, index) => (
                     <div key={index} className="flex flex-col items-start justify-between p-4">
                         <div className='flex items-center mb-[15px]'>
-                            <img src={item.product_img} alt={item.product_name} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                            <img src={'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
                             <div className="flex-grow">
-                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.product_name}</h3>
+                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.name}</h3>
                                 {item.size && <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>}
                                 {item.extras && <p className="text-sm text-gray-500">Добавки: {item.extras}</p>}
-                                <p className="font-bold mt-1 tg-theme-text">{item.product_price} ₽</p>
+                                <p className="font-bold mt-1 tg-theme-text">{item.price} ₽</p>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 justify-between mb-2 gap-1">
@@ -115,7 +115,7 @@ const PizzaBasket: React.FC = () => {
                         Оплатить бонусами ({bonusAmount} ₽)
                         {!canUseBonus && (
                             <span className="text-sm text-red-500 block ">
-                                Доступно при заказе от 350-500 ₽
+                                Доступно при заказе от 800 ₽
                             </span>
                         )}
                     </span>

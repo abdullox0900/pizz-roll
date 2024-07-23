@@ -40,7 +40,7 @@ const Inner = () => {
         })
     }
 
-    const { data, loading } = useFetchData<PizzaData>(`https://65c7cfb0e7c384aada6efcb0.mockapi.io/elements/products/${id}`)
+    const { data, loading } = useFetchData<PizzaData>(`https://pizza-webapp-server.onrender.com/products/${id}`)
     const { addItem } = useCart()
 
     return (
@@ -55,17 +55,13 @@ const Inner = () => {
                                 dynamicBullets: true,
                             }}
                             modules={[Pagination]}>
-                            {data.product_urls.map((item: string, index: number) => (
-                                <SwiperSlide key={index}>
-                                    <img className='w-full h-[400px] object-cover rounded-[20px] mt-[15px]' src={item} alt="" />
-                                </SwiperSlide>
-                            ))}
+                            <SwiperSlide>
+                                <img className='w-full h-[400px] object-cover rounded-[20px] mt-[15px]' src={'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'} alt="" />
+                            </SwiperSlide>
                         </Swiper>
-                        <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>{data.product_name}</div>
+                        <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>{data?.name}</div>
                         <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
-                            <div className='text-blue-500 text-[22px] font-bold'>{data.product_price} ₽</div>
-                            <span className='text-gray-500 font-bold line-through'>{data.product_discount} ₽</span>
-                            <span className='text-[14px] text-green-600 ml-[4px] font-semibold'>-15%</span>
+                            <div className='text-blue-500 text-[22px] font-bold'>{data?.price} ₽</div>
                         </div>
                         <div className='bg-tg-theme-secondary-bg p-[20px] rounded-[20px] mb-[20px]'>
                             <div className='text-[16px] font-semibold tg-theme-text'>Размер пиццы</div>

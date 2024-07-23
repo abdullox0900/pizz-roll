@@ -1,51 +1,7 @@
-// import { Checkbox } from 'antd'
 import React, { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
-
-interface TelegramWebApp {
-    ready: () => void
-    initDataUnsafe?: {
-        user?: {
-            id: number
-        }
-    }
-}
-
-interface Window {
-    Telegram?: {
-        WebApp: TelegramWebApp
-    }
-}
-
-declare const window: Window
-
-const useTelegramWebApp = () => {
-    const tg = window.Telegram?.WebApp
-
-    return {
-        getChatId: () => tg?.initDataUnsafe?.user?.id || null,
-        ready: () => {
-            if (tg?.ready) tg.ready()
-        },
-        sendData: async (data: object) => {
-            const url = 'YOUR_API_ENDPOINT' // Bu yerda o'zingizning API endpoint manzilingizni kiriting
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-
-            const result = await response.json()
-            if (!response.ok) {
-                console.error('Ошибка при отправке данных на API:', result.message)
-            }
-        },
-    }
-}
+import { useCart } from '../../context/CartContext'
 
 interface OrderItem {
     productId: number
@@ -54,47 +10,89 @@ interface OrderItem {
 }
 
 interface OrderData {
-    telegramId: number | null
+    telegramId: number
     userPhone: string
     userAddress: string
+    userBonus: number
+    useBonus: boolean
     orderItems: OrderItem[]
 }
+interface User {
+    id: string
+    telegramId: string
+    bonus: number
+    name: string
+    username: string
+    profilePic: string
+    createdAt: string
+}
+
 
 const OrderForm: React.FC = () => {
     const [name, setName] = useState<string>('')
     const [phone, setPhone] = useState<string>('')
     const [address, setAddress] = useState<string>('')
     const [comment, setComment] = useState<string>('')
+    const [useBonus, setUseBonus] = useState<boolean>(false)
+    const [telegramId, setTelegramId] = useState<User | string>('')
 
+    const { items } = useCart()
 
-    const telegramWebApp = useTelegramWebApp()
+    const inputStyle = "w-full bg-white rounded-lg px-4 py-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-gray-300"
+    const labelStyle = "block text-gray-700 text-sm font-bold mb-2"
 
     useEffect(() => {
-        telegramWebApp.ready()
+        const tg = window.Telegram.WebApp
+        tg.MainButton.text = "Changed Text"
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            setTelegramId(tg.initDataUnsafe.user.id.toString())
+        }
     }, [])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const telegramId = telegramWebApp.getChatId()
+
         const orderData: OrderData = {
-            telegramId,
+            telegramId: Number(telegramId),
             userPhone: phone,
             userAddress: address,
-            orderItems: []
+            userBonus: 500, // Assuming a fixed bonus amount
+            useBonus: useBonus,
+            orderItems: items.map(item => ({
+                productId: item.id,
+                quantity: item.quantity,
+                price: item.price
+            }))
         }
 
-        await telegramWebApp.sendData(orderData)
-        console.log('Отладка: данные заказа', orderData)
-    }
+        try {
+            const response = await fetch('https://pizza-webapp-server.onrender.com/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            })
 
-    const inputStyle = "w-full bg-white rounded-lg px-4 py-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-gray-300"
-    const labelStyle = "block text-gray-700 text-sm font-bold mb-2"
+            if (response.ok) {
+                console.log('Order placed successfully')
+                // Handle successful order (e.g., clear cart, show success message)
+            } else {
+                console.error('Failed to place order')
+                // Handle error (e.g., show error message to user)
+            }
+        } catch (error) {
+            console.error('Error submitting order:', error)
+            // Handle network errors
+        }
+    }
 
     return (
         <>
             <TelegramBackButton />
             <h3 className='text-[22px] font-bold text-center my-[30px]'>Оформление заказа</h3>
             <form onSubmit={handleSubmit} className="bg-gray-100 rounded-[15px] p-6 max-w-md mx-auto space-y-6">
+                {/* Form fields remain the same */}
                 <div>
                     <label htmlFor="name" className={labelStyle}>Имя</label>
                     <input
@@ -109,17 +107,15 @@ const OrderForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <div>
-                        <label htmlFor="phone" className={labelStyle}>Телефон</label>
-                        <InputMask
-                            mask="+7 (999) 999-99-99"
-                            value={phone}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
-                            className={inputStyle}
-                            placeholder="Введите ваш телефон"
-                            required
-                        />
-                    </div>
+                    <label htmlFor="phone" className={labelStyle}>Телефон</label>
+                    <InputMask
+                        mask="+7 (999) 999-99-99"
+                        value={phone}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+                        className={inputStyle}
+                        placeholder="Введите ваш телефон"
+                        required
+                    />
                 </div>
 
                 <div>
@@ -145,6 +141,19 @@ const OrderForm: React.FC = () => {
                         placeholder="Оставьте комментарий"
                     ></textarea>
                 </div>
+
+                <div>
+                    <label className="flex items-center">
+                        <input
+                            type="checkbox"
+                            checked={useBonus}
+                            onChange={(e) => setUseBonus(e.target.checked)}
+                            className="mr-2"
+                        />
+                        <span className={labelStyle}>Использовать бонусы</span>
+                    </label>
+                </div>
+
                 <button
                     type="submit"
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
