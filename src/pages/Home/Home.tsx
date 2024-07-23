@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Card from '../../components/Card/Card'
 import Info from '../../components/Info/Info'
 import Loading from '../../components/Loading/Loading'
@@ -40,10 +40,10 @@ declare global {
 }
 
 // UserData interfeysi
-interface UserData {
-    name: string
-    bonus: number
-}
+// interface UserData {
+//     name: string
+//     bonus: number
+// }
 
 function Home() {
     const context = React.useContext(ScrollContext)
