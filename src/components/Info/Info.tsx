@@ -52,6 +52,7 @@ const Info: React.FC = () => {
                     <div className='flex gap-[5px] items-center'>
                         <PiUserCircleDuotone className='text-[24px] text-tg-theme-text' />
                         <span className='text-[14px] font-semibold text-tg-theme-text'>{userData?.name || 'No Name'}</span>
+                        {userData?.telegramId}
                     </div>
                     <div className='flex gap-[5px] items-center'>
                         <span className='text-[14px] text-tg-theme-text'>Bonus:</span>
