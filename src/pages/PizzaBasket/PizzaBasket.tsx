@@ -73,14 +73,12 @@ const PizzaBasket: React.FC = () => {
             <TelegramBackButton />
             <h2 className="text-2xl font-bold p-4 border-b tg-theme-text">Корзина</h2>
             <div className="divide-y">
-                {cartItems.map((item, index) => (
+                {cartItems.map((item: any, index) => (
                     <div key={index} className="flex flex-col items-start justify-between p-4">
                         <div className='flex items-center mb-[15px]'>
-                            <img src={'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                            <img src={`http://localhost:3000${item.imageUrl}`} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
                             <div className="flex-grow">
-                                <h3 className="font-semibold text-lg tg-theme-text">🔥{item.name}</h3>
-                                {item.size && <p className="text-sm text-gray-500">Размер пиццы: {item.size}</p>}
-                                {item.extras && <p className="text-sm text-gray-500">Добавки: {item.extras}</p>}
+                                <h3 className="font-semibold text-lg tg-theme-text">{item.name}</h3>
                                 <p className="font-bold mt-1 tg-theme-text">{item.price} ₽</p>
                             </div>
                         </div>

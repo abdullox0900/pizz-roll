@@ -54,7 +54,7 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const { data, loading } = useFetchData('https://pizza-webapp-server.onrender.com/products')
+    const { data, loading } = useFetchData('http://localhost:3000/api/admin/pizzas')
 
     loading ? <Loading /> : ''
 
@@ -81,12 +81,6 @@ function Home() {
             <MainSection>
                 <h4 className='text-[16px] font-bold mb-[15px] tg-theme-text' ref={homeRef}>Пицца🍕</h4>
                 <Card data={data} />
-
-                {/* <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={burgersRef}>Бургеры🍔</h4>
-                <Card />
-
-                <h4 className='text-[16px] font-bold mt-[25px] mb-[15px] tg-theme-text' ref={snacksRef}>Закуски🍟</h4>
-                <Card /> */}
             </MainSection>
         </>
     )

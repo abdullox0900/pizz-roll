@@ -52,21 +52,21 @@ const OrderForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        const orderData: OrderData = {
-            telegramId: Number(telegramId),
-            userPhone: phone,
-            userAddress: address,
-            userBonus: 500, // Assuming a fixed bonus amount
-            useBonus: useBonus,
-            orderItems: items.map(item => ({
-                productId: item.id,
-                quantity: item.quantity,
-                price: item.price
-            }))
+        const orderData = {
+            userId: 5397518546,
+            items: items.map(item => ({
+                pizzaId: item.id,
+                quantity: item.quantity
+            })),
+            totalPrice: items.reduce((total, item) => total + item.price * item.quantity, 0),
+            name: name,
+            phone: phone,
+            address: address,
+            usedBonus: useBonus ? useBonus : 0 // Misol uchun, 200 bonus ishlatiladi
         }
 
         try {
-            const response = await fetch('https://pizza-webapp-server.onrender.com/order', {
+            const response = await fetch('http://localhost:3000/api/webapp/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,21 +75,18 @@ const OrderForm: React.FC = () => {
             })
 
             if (response.ok) {
-                console.log('Order placed successfully')
-                const tg = Telegram.WebApp
-                tg.MainButton.setText('Информация отправлена')
-                tg.MainButton.show()
+                console.log('Buyurtma muvaffaqiyatli joylashtirildi')
+                const tg = window.Telegram.WebApp
+                tg.MainButton.setText('Buyurtma qabul qilindi')
+                // tg.MainButton.show()
                 setTimeout(() => {
-                    tg.close()
+                    // tg.close()
                 }, 3000)
-                // Handle successful order (e.g., clear cart, show success message)
             } else {
-                console.error('Failed to place order')
-                // Handle error (e.g., show error message to user)
+                console.error('Buyurtmani joylashtirish muvaffaqiyatsiz tugadi')
             }
         } catch (error) {
-            console.error('Error submitting order:', error)
-            // Handle network errors
+            console.error('Buyurtmani yuborishda xatolik:', error)
         }
     }
 
