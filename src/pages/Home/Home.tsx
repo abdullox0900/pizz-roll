@@ -5,6 +5,7 @@ import Loading from '../../components/Loading/Loading'
 import MainSection from '../../components/MainSection/MainSection'
 import Search from '../../components/Search/Search'
 import Slider from '../../components/Slider/Slider'
+import { API_BASE_URL } from '../../config/api'
 import { ScrollContext } from '../../context/ScrollContext'
 import useFetchData from '../../hooks/useFetcher'
 
@@ -54,7 +55,7 @@ function Home() {
 
     const refs: Refs = { homeRef, burgersRef, snacksRef }
 
-    const { data, loading } = useFetchData('http://localhost:3000/api/admin/pizzas')
+    const { data, loading } = useFetchData(`${API_BASE_URL}/api/admin/pizzas`)
 
     loading ? <Loading /> : ''
 

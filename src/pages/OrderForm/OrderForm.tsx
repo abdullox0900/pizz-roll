@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import { API_BASE_URL } from '../../config/api'
 import { useCart } from '../../context/CartContext'
 
 interface OrderItem {
@@ -66,7 +67,7 @@ const OrderForm: React.FC = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/webapp/order', {
+            const response = await fetch(`${API_BASE_URL}/api/webapp/order`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { Minus, Plus, Trash } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import { API_BASE_URL } from '../../config/api'
 import { useCart } from '../../context/CartContext'
 
 export interface PizzaData {
@@ -76,7 +77,7 @@ const PizzaBasket: React.FC = () => {
                 {cartItems.map((item: any, index) => (
                     <div key={index} className="flex flex-col items-start justify-between p-4">
                         <div className='flex items-center mb-[15px]'>
-                            <img src={`http://localhost:3000${item.imageUrl}`} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                            <img src={`${API_BASE_URL}${item.imageUrl}`} alt={item.name} className="w-20 h-20 object-cover rounded-lg mr-4" />
                             <div className="flex-grow">
                                 <h3 className="font-semibold text-lg tg-theme-text">{item.name}</h3>
                                 <p className="font-bold mt-1 tg-theme-text">{item.price} ₽</p>

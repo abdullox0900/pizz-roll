@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import Loading from '../../components/Loading/Loading'
 import MainSection from '../../components/MainSection/MainSection'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
+import { API_BASE_URL } from '../../config/api'
 import { useCart } from '../../context/CartContext'
 import useFetchData from '../../hooks/useFetcher'
 
@@ -39,7 +40,7 @@ const Inner = () => {
         })
     }
 
-    const { data, loading } = useFetchData<any>(`http://localhost:3000/api/admin/pizzas/${id}`)
+    const { data, loading } = useFetchData<any>(`${API_BASE_URL}/api/admin/pizzas/${id}`)
     const { addItem } = useCart()
 
     console.log(data)
@@ -58,7 +59,7 @@ const Inner = () => {
                             }}
                             modules={[Pagination]}>
                             <SwiperSlide>
-                                <img className='w-full h-[400px] object-cover rounded-[20px] mt-[15px]' src={`http://localhost:3000${data?.imageUrl}`} alt="" />
+                                <img className='w-full h-[400px] object-cover rounded-[20px] mt-[15px]' src={`${API_BASE_URL}${data?.imageUrl}`} alt="" />
                             </SwiperSlide>
                         </Swiper>
                         <div className='text-[18px] font-bold mb-[15px] tg-theme-text'>{data?.name}</div>
