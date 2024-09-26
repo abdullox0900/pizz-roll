@@ -109,7 +109,7 @@ const PizzaBasket: React.FC = () => {
                     <span className='tg-theme-text'>Доставка</span>
                     <span className='tg-theme-text'>Бесплатно</span>
                 </div>
-                <div className={`flex items-center justify-between mb-4 ${!canUseBonus ? 'opacity-50' : ''}`}>
+                {/* <div className={`flex items-center justify-between mb-4 ${!canUseBonus ? 'opacity-50' : ''}`}>
                     <span className='tg-theme-text'>
                         Оплатить бонусами ({bonusAmount} ₽)
                         {!canUseBonus && (
@@ -131,7 +131,7 @@ const PizzaBasket: React.FC = () => {
                             <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${useBonus && canUseBonus ? 'transform translate-x-6' : ''}`}></div>
                         </div>
                     </label>
-                </div>
+                </div> */}
                 <div className="flex justify-between text-lg font-bold mb-4">
                     <span className='tg-theme-text'>Итого</span>
                     <span className='tg-theme-text'>{totalWithBonus} ₽</span>

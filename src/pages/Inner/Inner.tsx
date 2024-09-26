@@ -1,6 +1,6 @@
 import { CheckboxProps, RadioChangeEvent, notification } from 'antd'
-import { useState } from 'react'
-import { NavLink, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from "swiper/react"
 import Loading from '../../components/Loading/Loading'
@@ -12,9 +12,11 @@ import useFetchData from '../../hooks/useFetcher'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
-const Inner = () => {
-    const [radioValue, setRadioValue] = useState(1)
+const Inner: React.FC = () => {
+    const [count, setCount] = useState(1)
     const { id } = useParams()
+    const { addToCart } = useCart()
+    const navigate = useNavigate()
 
     const info: string[] = ['Помидоры 🍅', 'Авокадо 🥑', 'Сыр 🧀', 'Ветчина 🥓', 'Оливки 🫒', 'Зелень 🥬', 'Картошка 🥔', 'Мясо 🥩', 'Острый перец 🌶']
 
@@ -24,7 +26,7 @@ const Inner = () => {
 
     const onChangeRadio = (e: RadioChangeEvent) => {
         console.log('radio checked', e.target.value)
-        setRadioValue(e.target.value)
+        setCount(e.target.value)
     }
 
     const [api, contextHolder] = notification.useNotification()
@@ -41,10 +43,7 @@ const Inner = () => {
     }
 
     const { data, loading } = useFetchData<any>(`${API_BASE_URL}/api/admin/pizzas/${id}`)
-    const { addItem } = useCart()
-
     console.log(data)
-
 
     return (
         <MainSection>
@@ -68,7 +67,7 @@ const Inner = () => {
                         </div>
                         <div className='fixed left-0 bottom-0 w-full p-[20px] bg-tg-theme-secondary-bg rounded-t-[15px]'>
                             <button className=' bg-blue-500 text-[14px] text-white w-full py-[7px] rounded-[8px]' onClick={() => {
-                                addItem(data)
+                                addToCart(data)
                                 openNotificationWithIcon('success')
                             }} >Добавить в корзину</button>
                         </div>

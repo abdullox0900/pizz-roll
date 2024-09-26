@@ -6,30 +6,7 @@ import TelegramBackButton from '../../components/TelegramBackButton/TelegramBack
 import { API_BASE_URL } from '../../config/api'
 import { useCart } from '../../context/CartContext'
 
-interface OrderItem {
-    productId: number
-    quantity: number
-    price: number
-}
-
-interface OrderData {
-    telegramId: number
-    userPhone: string
-    userAddress: string
-    userBonus: number
-    useBonus: boolean
-    orderItems: OrderItem[]
-}
-
-interface User {
-    id: string
-    telegramId: string
-    bonus: number
-    name: string
-    username: string
-    profilePic: string
-    createdAt: string
-}
+// OrderData va User interfacelarini olib tashlaymiz, chunki ular ishlatilmayapti
 
 const OrderForm: React.FC = () => {
     const [name, setName] = useState<string>('')
