@@ -8,6 +8,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Favorites from './pages/Favorites/Favorites'
 import Home from './pages/Home/Home'
 import Orders from './pages/OrderForm/OrderForm'
+import OrderHistory from './pages/OrderHistory/OrderHistory'
 import Profile from './pages/Profile/Profile'
 
 // Styles
@@ -34,6 +35,7 @@ function App() {
           <Route path='/inner/:id' element={<Inner />} />
           <Route path='/pizza_basket' element={<PizzaBasket />} />
           <Route path='/pizza_order' element={<OrderForm />} />
+          <Route path='/order-history/:telegramId' element={<OrderHistory />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
