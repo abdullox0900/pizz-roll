@@ -1,6 +1,5 @@
-import { CheckboxProps, RadioChangeEvent, notification } from 'antd'
-import React, { useState } from 'react'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { notification } from 'antd'
+import { NavLink, useParams } from 'react-router-dom'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from "swiper/react"
 import Loading from '../../components/Loading/Loading'
@@ -13,21 +12,8 @@ import useFetchData from '../../hooks/useFetcher'
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
 const Inner: React.FC = () => {
-    const [count, setCount] = useState(1)
     const { id } = useParams()
     const { addToCart } = useCart()
-    const navigate = useNavigate()
-
-    const info: string[] = ['Помидоры 🍅', 'Авокадо 🥑', 'Сыр 🧀', 'Ветчина 🥓', 'Оливки 🫒', 'Зелень 🥬', 'Картошка 🥔', 'Мясо 🥩', 'Острый перец 🌶']
-
-    const onChange: CheckboxProps['onChange'] = (e) => {
-        console.log(`checked = ${e.target.checked}`)
-    }
-
-    const onChangeRadio = (e: RadioChangeEvent) => {
-        console.log('radio checked', e.target.value)
-        setCount(e.target.value)
-    }
 
     const [api, contextHolder] = notification.useNotification()
 
