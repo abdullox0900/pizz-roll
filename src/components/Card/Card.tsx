@@ -13,7 +13,7 @@ const Card = ({ data }: any) => {
                                 <NavLink to={`/inner/${item._id}`} className="flex flex-col justify-between h-full">
                                     <div>
                                         <img className='w-full h-[180px] rounded-[5px] mb-[10px] object-cover' src={`${API_BASE_URL}${item.imageUrl}`} alt="" />
-                                        {/* ... rest of the item JSX ... */}
+                                        
                                     </div>
                                     <button className='bg-blue-500 text-[14px] text-white w-full py-[5px] rounded-[8px]'>Купить</button>
                                 </NavLink>
