@@ -9,8 +9,16 @@ interface Product {
     createdAt: string
 }
 
-interface CartItem extends Product {
+interface CartItem {
+    _id: string  // Bu pizzaId sifatida ishlatiladi
+    name: string
+    price: number
     quantity: number
+    description: string
+    id: number
+    categoryId: number
+    createdAt: string
+    imageUrl?: string  // Agar rasmlar ham bo'lsa
 }
 
 interface CartContextType {
@@ -52,7 +60,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 )
             }
-            return [...prevItems, { ...product, quantity: 1 }]
+            return [...prevItems, { ...product, _id: product.id?.toString(), quantity: 1 }]
         })
     }
 

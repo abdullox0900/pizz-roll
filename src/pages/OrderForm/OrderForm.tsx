@@ -20,6 +20,9 @@ const OrderForm: React.FC = () => {
 
     const { items } = useCart()
 
+    console.log(items)
+
+
     const inputStyle = "w-full bg-white rounded-lg px-4 py-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border border-gray-300"
     const labelStyle = "block text-gray-700 text-sm font-bold mb-2"
 
@@ -28,8 +31,8 @@ const OrderForm: React.FC = () => {
 
     useEffect(() => {
         const tg = window.Telegram.WebApp
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            setTelegramId(tg.initDataUnsafe.user.id.toString())
+        if (tg.initDataUnsafe && tg.initDataUnsafe?.user) {
+            setTelegramId(tg.initDataUnsafe?.user?.id?.toString())
         }
     }, [])
 
@@ -37,9 +40,9 @@ const OrderForm: React.FC = () => {
         e.preventDefault()
 
         const orderData = {
-            telegramId: telegramId,
-            items: items.map(item => ({
-                pizzaId: item.id,
+            telegramId: telegramId || '5397518546',
+            items: items.filter(item => item && item?._id).map(item => ({
+                pizzaId: item._id,
                 quantity: item.quantity
             })),
             totalPrice: totalPrice,
@@ -59,15 +62,20 @@ const OrderForm: React.FC = () => {
             })
 
             if (response.ok) {
+                const result = await response.json()
+                console.log('Order created:', result)
                 setShowSuccess(true)
                 setTimeout(() => {
                     navigate(`/order-history/${telegramId}`)
                 }, 3000)
             } else {
-                console.error('Buyurtmani joylashtirish muvaffaqiyatsiz tugadi')
+                const errorData = await response.json()
+                console.error('Buyurtmani joylashtirish muvaffaqiyatsiz tugadi:', errorData.message)
+                // Xatolik xabarini foydalanuvchiga ko'rsatish uchun qo'shimcha mantiq
             }
         } catch (error) {
             console.error('Buyurtmani yuborishda xatolik:', error)
+            // Xatolik xabarini foydalanuvchiga ko'rsatish uchun qo'shimcha mantiq
         }
     }
 
