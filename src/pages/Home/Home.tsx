@@ -28,7 +28,6 @@ function Home() {
     if (!context) return <Loading />
     const { scrollToSection } = context
 
-    const [activeIndex, setActiveIndex] = useState<number>(0)
     const [categories, setCategories] = useState<Category[]>([])
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
@@ -60,14 +59,13 @@ function Home() {
             <Info />
             <Slider />
             <ul className='w-full overflow-y-scroll scrollbar-hide flex gap-[20px] px-[12px] my-[25px]'>
-                {categories.map((category, index) => {
+                {categories.map((category) => {
                     const isActive = category._id === selectedCategory
                     return (
                         <li
                             key={category._id}
                             onClick={() => {
                                 setSelectedCategory(category._id)
-                                setActiveIndex(index)
                                 scrollToSection(context.homeRef)
                             }}
                             className={`flex-none w-[110px] py-[5px] px-[8px] rounded-[10px] text-center cursor-pointer
