@@ -14,7 +14,7 @@ const PizzaBasket: React.FC = () => {
     const { items, removeItem, updateItem } = useCart()
     const [cartItems, setCartItems] = useState<PizzaData[]>([])
     const [useBonus, setUseBonus] = useState(false)
-    const [bonusAmount, setBonusAmount] = useState(500)
+    const bonusAmount = 500 // Statik qiymat sifatida belgilaymiz
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
     const canUseBonus = subtotal >= 800
