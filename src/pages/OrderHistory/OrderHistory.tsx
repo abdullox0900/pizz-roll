@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaTrash } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import TelegramBackButton from '../../components/TelegramBackButton/TelegramBackButton'
 import { API_BASE_URL } from '../../config/api'
@@ -56,12 +55,12 @@ const OrderHistory: React.FC = () => {
         fetchOrders()
     }, [telegramId])
 
-    const handleDeleteOrder = async (orderId: string) => {
-        // Здесь должна быть логика удаления заказа
-        console.log(`Удаление заказа с ID: ${orderId}`)
-        // После успешного удаления, обновите список заказов
-        setOrders(orders.filter(order => order._id !== orderId))
-    }
+    // const handleDeleteOrder = async (orderId: string) => {
+    //     // Здесь должна быть логика удаления заказа
+    //     console.log(`Удаление заказа с ID: ${orderId}`)
+    //     // После успешного удаления, обновите список заказов
+    //     setOrders(orders.filter(order => order._id !== orderId))
+    // }
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen">Загрузка...</div>
@@ -77,25 +76,25 @@ const OrderHistory: React.FC = () => {
                 <ul className="space-y-4">
                     {orders.map((order) => (
                         <li key={order._id} className="bg-white shadow rounded-lg p-4 relative">
-                            <button
+                            {/* <button
                                 onClick={() => handleDeleteOrder(order._id)}
                                 className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                             >
                                 <FaTrash />
-                            </button>
+                            </button> */}
                             <p className="font-semibold text-blue-600">ID заказа: {order._id}</p>
                             <p className="text-gray-600">Дата: {new Date(order.date).toLocaleString()}</p>
-                            <p className="font-bold text-green-600">Общая сумма: {order.totalPrice} ₽</p>
+                            <p className="font-bold text-green-600">Общая сумма: {order?.totalPrice} ₽</p>
                             <p className="text-gray-600">Использованные бонусы: {order.usedBonus}</p>
                             <h4 className="font-semibold mt-2 text-gray-800">Состав заказа:</h4>
                             <ul className="list-disc list-inside">
                                 {order.items.map((item, index) => (
                                     <li key={index} className="flex items-center my-2">
-                                        <img src={item.imageUrl} alt={item.name} className="w-12 h-12 object-cover rounded mr-2" />
+                                        <img src={'https://int.bandg.com/assets/img/default-product-img.png?w=400&h=225&scale=both&mode=max'} alt={item?.name} className="w-12 h-12 object-cover rounded mr-2" />
                                         <div>
-                                            <p className="font-medium">{item.name}</p>
-                                            <p className="text-sm text-gray-600">Количество: {item.quantity}</p>
-                                            <p className="text-sm text-gray-600">Цена: {item.pizzaId.price} ₽</p>
+                                            <p className="font-medium">{item?.name}</p>
+                                            <p className="text-sm text-gray-600">Количество: {item?.quantity}</p>
+                                            <p className="text-sm text-gray-600">Цена: {item?.pizzaId?.price} ₽</p>
                                         </div>
                                     </li>
                                 ))}
