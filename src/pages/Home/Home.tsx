@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Card from '../../components/Card/Card'
 import Info from '../../components/Info/Info'
 import Loading from '../../components/Loading/Loading'
@@ -9,55 +9,50 @@ import { API_BASE_URL } from '../../config/api'
 import { ScrollContext } from '../../context/ScrollContext'
 import useFetchData from '../../hooks/useFetcher'
 
-interface Refs {
-    homeRef: React.RefObject<HTMLDivElement>
-    burgersRef: React.RefObject<HTMLDivElement>
-    snacksRef: React.RefObject<HTMLDivElement>
-    [key: string]: React.RefObject<HTMLDivElement> // Qo'shimcha indeks imzosi
+interface Category {
+    _id: string
+    name: string
 }
 
-
-const NavigationFood = [
-    {
-        name: 'Пицца🍕',
-        refName: 'homeRef'
-    },
-    {
-        name: 'Бургеры🍔',
-        refName: 'burgersRef'
-    },
-    {
-        name: 'Закуски🍟',
-        refName: 'snacksRef'
-    },
-]
-
-declare global {
-    interface Window {
-        Telegram: {
-            WebApp: TelegramWebApp
-        }
-    }
+interface PizzaData {
+    _id: string
+    name: string
+    price: number
+    description: string
+    imageUrl: string
+    categoryId: string
 }
-
-// UserData interfeysi
-// interface UserData {
-//     name: string
-//     bonus: number
-// }
 
 function Home() {
     const context = React.useContext(ScrollContext)
-    if (!context) return <div>Loading...</div>
-    const { scrollToSection, homeRef, burgersRef, snacksRef } = context
+    if (!context) return <Loading />
+    const { scrollToSection } = context
 
-    const [activeIndex, setActiveIndex] = useState<number | null>(0)
+    const [activeIndex, setActiveIndex] = useState<number>(0)
+    const [categories, setCategories] = useState<Category[]>([])
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-    const refs: Refs = { homeRef, burgersRef, snacksRef }
+    const { data: pizzasData, loading: pizzasLoading } = useFetchData<PizzaData[]>(`${API_BASE_URL}/api/admin/pizzas`)
+    const { data: categoriesData, loading: categoriesLoading } = useFetchData<Category[]>(`${API_BASE_URL}/api/admin/categories`)
 
-    const { data, loading } = useFetchData(`${API_BASE_URL}/api/admin/pizzas`)
+    useEffect(() => {
+        if (categoriesData) {
+            const allPizzasCategory: Category = { _id: 'all', name: 'Все пиццы' }
+            setCategories([allPizzasCategory, ...categoriesData])
+            setSelectedCategory('all')
+        }
+    }, [categoriesData])
 
-    loading ? <Loading /> : ''
+    const filteredPizzas = useMemo(() => {
+        if (!pizzasData) return []
+        if (!selectedCategory || selectedCategory === 'all') return pizzasData
+        return pizzasData.filter((pizza) => pizza.categoryId === selectedCategory)
+    }, [pizzasData, selectedCategory])
+
+    if (pizzasLoading || categoriesLoading) return <Loading />
+
+    console.log('Selected Category:', selectedCategory)
+    console.log('Filtered Pizzas:', filteredPizzas)
 
     return (
         <>
@@ -65,26 +60,32 @@ function Home() {
             <Info />
             <Slider />
             <ul className='w-full overflow-y-scroll scrollbar-hide flex gap-[20px] px-[12px] my-[25px]'>
-                {
-                    NavigationFood.map((item, index) => {
-                        const isActive = index === activeIndex
-                        return (
-                            <li key={index} onClick={() => {
-                                scrollToSection(refs[item.refName])
+                {categories.map((category, index) => {
+                    const isActive = category._id === selectedCategory
+                    return (
+                        <li
+                            key={category._id}
+                            onClick={() => {
+                                setSelectedCategory(category._id)
                                 setActiveIndex(index)
-                            }} className={`flex-none w-[110px] text-tg-theme-hint py-[5px] px-[8px] rounded-[10px] ${isActive ? 'bg-tg-theme-button  text-white' : 'text-slate-400'}`}>
-                                {item.name}
-                            </li>
-                        )
-                    })
-                }
+                                scrollToSection(context.homeRef)
+                            }}
+                            className={`flex-none w-[110px] py-[5px] px-[8px] rounded-[10px] text-center cursor-pointer
+                                ${isActive ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+                        >
+                            {category.name}
+                        </li>
+                    )
+                })}
             </ul>
             <MainSection>
-                <h4 className='text-[16px] font-bold mb-[15px] tg-theme-text' ref={homeRef}>Пицца🍕</h4>
-                <Card data={data} />
+                <h4 className='text-[16px] font-bold mb-[15px] text-gray-800' ref={context.homeRef}>
+                    {categories.find(cat => cat._id === selectedCategory)?.name || 'Все пиццы'}
+                </h4>
+                <Card data={filteredPizzas} />
             </MainSection>
         </>
     )
 }
 
-export default Home
+export default React.memo(Home)
