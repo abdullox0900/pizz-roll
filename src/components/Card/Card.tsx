@@ -37,7 +37,7 @@ const Card: React.FC<CardProps> = React.memo(({ data }) => {
                 <li key={item._id} className={cardStyle}>
                     <div className="flex flex-col h-full">
                         <img
-                            className='w-full h-[100px] rounded-[10px] mb-[5px] object-cover'
+                            className='w-full h-[140px] rounded-[10px] mb-[5px] object-cover'
                             src={`${API_BASE_URL}${item.imageUrl}`}
                             alt={item.name}
                         />

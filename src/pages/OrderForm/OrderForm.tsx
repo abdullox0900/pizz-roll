@@ -35,7 +35,7 @@ const OrderForm: React.FC = () => {
         e.preventDefault()
 
         const orderData = {
-            telegramId: telegramId || '5397518546',
+            telegramId: telegramId || '',
             items: items.filter(item => item && item?._id).map(item => ({
                 pizzaId: item._id,
                 quantity: item.quantity
